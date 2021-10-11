@@ -1,0 +1,27 @@
+.indisummary{
+    padding-left: 8px;
+    padding-right: 20px;   
+    width: 98%; 
+}
+
+.blocktwo {
+    width: 85%;
+    margin: auto; 
+    display: block;  
+    margin-top: 16%; 
+}
+
+.cancelbuttontwo{
+    width: 25%;
+    margin: auto; 
+    display: block;  
+}
+
+.indisummary2{
+    padding-left: 8px;
+    padding-right: 20px;   
+    width: 98%; 
+    height: 20%;
+}
+
+

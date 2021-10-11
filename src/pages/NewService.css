@@ -1,0 +1,26 @@
+.newservicepadding{
+    width: 88%;
+    position: relative;
+    margin:auto;
+    align-items: center;
+  }
+
+  .newservicepaddingone{
+    width: 88%;
+    position: relative;
+    margin:auto;
+    align-items: center;
+    margin-top: 6%;
+  }
+
+  .newserviveicon{
+    margin-left: -5%;
+  }
+
+  .newserviveicon2{
+   margin-left: 50%;
+  }
+
+  .newserviveicon3{
+    margin-left: 60%;
+   }

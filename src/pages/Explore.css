@@ -1,0 +1,81 @@
+.searchbarexplorer{
+    width: 95%;
+    position: relative;
+    margin:auto;
+    margin-top:4%; 
+}
+
+.trendingtitle{
+    padding-left: 18px;
+    padding-right: 20px;   
+    width: 98%;
+    margin-top:3%;
+  }
+
+  .showallbutton{
+    width: 25%;
+    margin-top:-18%;
+    margin-left: 67%;
+  }
+
+.london{
+width: 300px;
+height: 180px;
+margin-left: -64%;
+
+  }
+
+  .londoncard{
+      height: 250px;
+      width: 132px; 
+   
+  }
+
+  .cards{
+    margin-top: -6%;
+    margin-left: -8%;
+  }
+
+.trendingheader{
+  margin-left: -32%;
+  margin-top: 5%;
+  color: #020202;
+}
+
+.trendingcategory{
+  margin-left: -16%;
+  margin-top: -7%;
+}
+
+.ionslider{
+  width: 455px;
+  margin-top: -6%;
+}
+
+.explorestars{
+  margin-left: -19%;
+}
+
+.categorycard{
+  width: 350px;
+  height: 90px;
+  margin-top: 4%;
+}
+
+.categoryicons{
+ margin-top: 6%;
+ margin-left: 9%;
+}
+
+.my-icon {
+  width: 60x;
+  height: 60px;
+}
+
+
+
+
+
+
+
+  

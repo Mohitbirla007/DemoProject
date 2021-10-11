@@ -1,0 +1,32 @@
+.searchcard{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:-1%; 
+  }
+
+/*   .list{
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    max-height: 170px;
+    overflow: auto;
+    border: 2px solid #969494;
+    box-shadow: -20px 0px 22.4672px 5px rgb(0 0 0 / 14%);
+  } */
+/* width */
+.list::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Handle */
+.list::-webkit-scrollbar-thumb {
+  background: #D1D3DE;
+  border-radius: 50px;
+  height: 25px;
+}
+
+/* Handle on hover */
+.list::-webkit-scrollbar-thumb:hover {
+  background: #34455E;
+}

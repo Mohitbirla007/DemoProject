@@ -1,0 +1,91 @@
+
+
+  .profilepng{
+    width: 30%;
+    margin: auto; 
+    display: block;
+ }
+
+ .profiletitle{
+  text-align: center;
+  margin-top: 15%;
+  
+}
+
+.editprofilebutton {
+  width: 95%;
+    margin: auto; 
+    display: block;
+   align-items: center;
+   margin-top: 7%;
+   color:  #ffffff;
+
+}
+
+.profilebio{
+  width: 90%;
+  margin: auto; 
+  display: block;
+  margin-top: 8%;
+}
+
+.showallbuttontwo{
+  width: 25%;
+
+}
+
+.featuretitletwo{
+  width: 98%;
+}
+
+.profilefeature{
+  display: grid;
+grid-template-columns: repeat(2, 1fr);
+column-gap: 34px;
+row-gap: 2em;
+margin: auto; 
+margin-left: 35px;
+margin-top: 2%;
+}
+
+.showallbuttonthree{
+  width: 53%;
+  margin-left: 30px;
+}
+
+.appearancepng{
+  width: 320px;
+  height: 160px;
+  margin: auto; 
+  display: block;
+  margin-top: -1%;
+}
+
+.insta01{
+  width: 103px;
+  height: 95px;
+}
+
+.instafeed{
+  display: inline-grid;
+  grid-template-columns: repeat(3, 3fr);
+  column-gap: 5px;
+  row-gap: 0.30em;
+  margin-left: 6%;
+}
+
+.notificationicon3{
+  font-size: 1.2em;
+  margin-top: 0%;
+}
+
+.settingsicon3{
+  font-size: 1em;
+}
+
+.profilenotification{
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr); 
+  column-gap: 199px;
+  margin-top: 4%;
+}

@@ -1,0 +1,50 @@
+.clientcard{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:8%;
+    height: 35%;
+}
+
+.clientimg{
+    height: 150px;
+    width: 150px;
+    margin-left: 49%;
+    margin-right: 10%;
+    margin-top: 5%;
+}
+
+.clienttitle{
+    margin-top: -48%;   
+    padding-left: 3%;
+    width: 50%;
+}
+
+.free{
+margin-top: 4%;
+font-size: 18px;
+}
+
+.professionalcard{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:3%; 
+    height: 35%;
+}
+
+.additonaltitle{
+    width: 120%;
+    }
+
+    .teamimg{
+        height: 140px;
+        width: 190px;
+        margin-left: 40%;
+        margin-right: 10%;
+        margin-top: 5%;
+    }
+
+    .learnmore{
+        text-align: center;
+    }

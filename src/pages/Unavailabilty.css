@@ -1,0 +1,14 @@
+.setdaystwo{
+    width: 90%;
+     margin: auto; 
+     display: block;
+     margin-top: 8%;
+  }
+
+  .paddingthree{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    align-items: center;
+    margin-left: 13px;
+}

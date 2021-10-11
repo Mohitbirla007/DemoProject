@@ -1,0 +1,65 @@
+
+.firstcardtwo{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:11%; 
+}
+
+.settingsicon{
+    font-size: 1.2em;
+    padding-left: 285px;
+ margin-bottom: -6%;
+}
+
+.profilepngone{
+    width: 30%;
+    margin: auto; 
+    display: block;
+    margin-top: 12%;
+ }
+
+ .secondcardtwo{
+    width: 90%;
+    height: 7.8%;
+    position: relative;
+    margin:auto;
+    margin-top:2%; 
+}
+
+.profiletitle{
+margin-top: 65px;
+}
+
+.wordcount{
+    margin-left: 272px;
+    color: #AAB2BD;
+}
+
+.dropdown{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    align-items: center;
+    margin-left: 5px;  
+    margin-bottom: 0%;
+}
+
+.popover{
+    height: 40%;
+}
+
+.bio{
+    margin-top: -4%;
+}
+
+.editprofilebutton {
+    width: 94%;
+      margin: auto; 
+      display: block;
+     align-items: center;
+     margin-top: 7%;
+     color:  #ffffff;
+  }
+
+

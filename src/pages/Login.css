@@ -1,0 +1,95 @@
+.login{
+    text-align: center;
+    margin-top: 35px;
+}
+div.logo{
+   
+   width: 30%;
+   margin: auto; 
+   display: block;
+   margin-top: 20%;
+}
+
+.forgotenbutton{
+    width: 60%;
+    margin: auto; 
+   display: block;
+ 
+}
+
+.mailout{
+    width:  12px;
+    height: 12px; 
+    position: relative;
+    left: -5%;
+    margin-top: 13%;
+  /** Page Headings size **/  
+ 
+}
+.lockclosed{
+    width:  15px;
+    height: 15px; 
+    position: relative;
+    left: -5%;   
+    margin-top:9.5%;
+}
+.namea{
+     margin-top:11%;
+     width: 190%; 
+     left: 0%;
+}
+
+.nameb{
+    margin-top:9%;   
+}
+
+.forgotten{
+    margin-top:5%;  
+}
+
+.signin{
+    margin-top:9%; 
+}
+
+.block {
+    width: 85%;
+    margin: auto; 
+    display: block;  
+    margin-top: 8%; 
+}
+
+.cancelbutton{
+    width: 25%;
+    margin: auto; 
+    display: block;  
+
+}
+
+.signbutton{
+ color: #ffffff;   
+}
+
+.cancel{
+  color: #CC4D6B;  
+}
+
+.account{
+    text-align: center; 
+    margin:auto;
+    margin-top:-1%;
+}
+
+.signup1{
+    color: #CC4D6B;    
+}
+.padding{
+    width: 80%;
+    position: relative;
+    margin:auto;
+    align-items: center;
+}
+
+ .main_login > main.inner-scroll.scroll-y.overscroll::-webkit-scrollbar {
+    display: none;
+  }
+  

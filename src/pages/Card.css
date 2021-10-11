@@ -1,0 +1,26 @@
+
+.cardpayment{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:8%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.cardtitle{
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 90px;
+}
+
+.savebutton {
+    display: flex;
+    width: 85%;
+    height: 47px ;
+    position: relative;
+    margin:auto;
+    margin-top:-25%;
+    margin-left: 25px;
+    align-items: center;
+}

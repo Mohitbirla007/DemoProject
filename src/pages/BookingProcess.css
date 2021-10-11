@@ -1,0 +1,115 @@
+.appearancetitle1{
+margin-top: -3%;
+margin-left: 4%;
+}
+
+.appearancetitle2{
+    margin-top: 7%;
+    margin-left: 4%;
+}
+
+.price{
+  margin-left: 28px; 
+  width: 49px;   
+}
+
+.intro{
+  width: 49px; 
+  margin-left: 14px ;
+}
+
+.date{
+    margin-left: 28px;
+    width: 49px;     
+}
+
+.detail{
+    margin-left: 28px;
+    width: 53px; 
+}
+
+.servicebio{ 
+    width: 90%; 
+    text-align: left;
+    margin-left: 5.5%;  
+    font-size: 90%;
+    letter-spacing: 0px;
+}
+
+.serviceprice{
+  width: 160px;  
+  height: 130px;
+  margin-left: -46%;
+}
+
+
+  .selectservice{
+      margin-top: 18%;
+  }
+
+  .packagetitle{
+      margin-top: -2%;
+      font-size: 27px;
+      color: #020202;
+  }
+
+  .packagetitle2{
+    margin-top: 8%;
+    font-size: 13px;
+    color: #020202;
+}
+
+  .packageprice{
+margin-top: 18%;
+font-size: 25px;
+  }
+
+  .calendercard{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:3%; 
+}
+
+
+
+.serviceprice4{
+  width: 325px;  
+  height: 200px;
+}
+
+.ioncards{
+  margin: auto; 
+   display: block;
+   margin-top: 4%;
+}
+
+.calendertwo{
+  width: 90%;
+   margin: auto; 
+   display: block;
+   margin-top: 6%;
+}
+
+.bookingpadding{
+  width: 88%;
+  position: relative;
+  margin:auto;
+  align-items: center;
+
+}
+
+.bookingicon{
+  margin-left: -5.5%;
+}
+
+.titletwo{
+  text-align:center;
+  margin-left: -49px; 
+}
+
+.bookingdetails{
+  margin-top: 7px;
+}
+
+

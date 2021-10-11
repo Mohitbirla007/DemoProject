@@ -1,0 +1,30 @@
+.exploreimage{
+    height: 310px;
+    width: 310px;
+    margin: auto; 
+   display: block;
+   margin-top: 12%;
+}
+
+.tutorialheader{
+    margin-top: -13%;
+}
+
+.tutorialinfo{
+    width: 95%; 
+    align-items: center;
+    margin: auto;
+}
+
+.tutorialinfotwo{
+    width: 93%; 
+    align-items: center;
+    margin-left: 4%;
+}
+
+
+
+
+.tutorialheadertwo{
+    margin-top: -6%;
+}

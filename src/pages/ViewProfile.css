@@ -1,0 +1,47 @@
+.messagebutton{
+  width: 45.5%;  
+  height: -15% ;
+}
+
+.bookingbutton {
+    display: flex;
+    position: relative;
+    margin-left: 18px;
+    margin-top: 3%;
+}
+
+.artisttitle{
+  padding-left: 20px;
+  padding-right: 20px;   
+  width: 98%;
+  margin-top:4%;
+  color: #020202;
+}
+
+.bio{
+  padding-left: 20px;
+  padding-right: 20px;   
+  width: 98%;
+  margin-top:4%;
+}
+
+.aptitle{
+  margin-top: -107%;
+  text-align: center;
+  font-size: 150%;
+  color: #ffffff;
+}
+
+.profilenotification2{
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr); 
+
+  margin-top: 4%;
+  margin-left: 80%;
+}
+
+.notificationicon4{
+  font-size: 1em;
+  margin-top: 0%;
+}
+

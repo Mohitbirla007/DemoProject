@@ -1,0 +1,26 @@
+.title{
+    text-align:center;
+}
+
+.star{
+padding-left: 10px;
+padding-right: 10px; 
+margin-top:8%;
+}
+
+.star1{
+margin:1.7%;
+}
+
+.rating{
+ text-align:center;
+ margin-top:2%;    
+}
+
+.ion-padding{ 
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:11%;
+}
+

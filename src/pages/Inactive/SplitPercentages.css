@@ -1,0 +1,35 @@
+.splitcard{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:0%; 
+}
+
+.spliticon{
+margin-bottom: -7%;
+margin-left: 26%;
+font-size: 1.3em;
+}
+
+.totalsplit{
+    text-align: center;
+    margin-top: -2%;
+}
+
+.save {
+    display: flex;
+    width: 87%;
+    height: 47px ;
+    position: relative;
+    margin:auto;
+    margin-top:11%;
+    margin-left: 25px;
+    align-items: center;
+    margin-top: 50%;
+}
+
+.splitlogo{
+    margin-left: -6%;
+}
+
+   

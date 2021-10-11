@@ -1,0 +1,17 @@
+div.logo1{
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    top: 3%;
+    left: 38%;
+}
+
+.create{
+    text-align: center;
+    margin-top: 60px;
+}
+
+.started{
+    text-align: center;
+    margin-top: 15px;  
+}

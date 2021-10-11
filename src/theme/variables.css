@@ -1,0 +1,55 @@
+/* Ionic Variables and Theming. For more info, please see:
+http://ionicframework.com/docs/theming/ */
+
+/** Ionic CSS Variables **/
+:root {
+  /** primary **/
+  --ion-color-primary: #020202;
+
+  /** tertiary **/
+  --ion-color-tertiary: #5A5D69;
+  
+  /** light grey **/
+  --ion-color-success: #AAB2BD;
+
+  /** red **/
+  --ion-color-warning: #CC4D6B;
+
+  /** green **/
+  --ion-color-danger: #6AAEB2;
+
+  /** orange **/
+  --ion-color-dark: #F7A41E;
+
+  /** blue **/
+  --ion-color-medium: #6C63FF;
+
+  /** white **/
+  --ion-color-light: #ffffff;
+}
+
+/** Page Headings size **/
+
+typography3{
+  font-size: 45;
+}
+
+typography4{
+  font-size: 40;
+}
+
+typography5{
+font-size: 35;
+}
+
+
+  
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+.applyverification{
+    padding-left: 10px;
+    padding-right: 10px;   
+    width: 90%; 
+}
+
+.applyverification1{
+    padding-left: 8px;
+    padding-right: px;   
+    width: 90%; 
+}
+
+.number4{
+    padding-left: -22px;
+}
+
+.applybutton {
+    display: flex;
+    width: 85%;
+    height: 47px ;
+    position: relative;
+    margin:auto;
+    margin-top:5%;
+    margin-left: 25px;
+    align-items: center;
+}

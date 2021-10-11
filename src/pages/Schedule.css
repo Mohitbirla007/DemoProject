@@ -1,0 +1,24 @@
+/* DOES NOT WORK - not specific enough */
+.alert-wrapper {
+  background: #e5e5e5;
+}
+
+/* Works - pass "my-custom-class" in cssClass to increase specificity */
+.my-custom-class .alert-wrapper {
+  background: #e5e5e5;
+}
+
+.schedulecard{
+  width: 90%;
+  position: relative;
+  margin:auto;
+  margin-top:-1%; 
+}
+
+.schedulecardtwo{
+  width: 90%;
+  position: relative;
+  margin:auto;
+  align-items: center;
+  margin-top: -1%;
+}  

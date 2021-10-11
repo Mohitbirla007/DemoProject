@@ -1,0 +1,23 @@
+.checkbox{
+    margin-top: 8%;
+    font-size: 80%;
+    margin-left: 5%;
+   
+}
+
+.blockfour {
+    width: 85%;
+    margin: auto; 
+    display: block;  
+    margin-top: 4%; 
+}
+
+.confirm{
+    margin-left: 3%;
+}
+
+.checkbox2{
+    width: 15px;
+    height: 15px;
+}
+

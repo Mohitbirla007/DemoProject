@@ -1,0 +1,38 @@
+.participants{
+   text-align: center;
+   color:020202;
+}
+
+.searchbar{
+    width: 95%;
+    position: relative;
+    margin:auto;
+    margin-top:8%; 
+}
+
+.director{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:4%; 
+}
+
+.suggested{
+margin-left: 20px;
+margin-top:1.9%; 
+}
+
+.coordinator{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:2%; 
+}  
+
+.assistant{
+    width: 90%;
+    position: relative;
+    margin:auto; 
+    margin-top:2%;  
+}
+

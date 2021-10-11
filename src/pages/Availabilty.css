@@ -1,0 +1,64 @@
+
+.calender{
+    width: 90%;
+     margin: auto; 
+     display: block;
+     margin-top: 8%;
+  }
+
+  .partial{
+    width: 5%;
+    position: relative;
+    left: 19px;
+    margin-top:13px;
+}
+
+
+.container{
+    display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 12px;
+  row-gap: 0.07em;
+  margin: auto; 
+ margin-left: 18px;
+ margin-top: 16px;
+}
+
+.partialpng{
+    width: 19px;
+    height: 19px;
+}
+
+.available{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);  
+    column-gap: 50px;
+  row-gap: 0.07em;
+  margin-left: 55px;
+  margin-top: -35px;
+}
+
+.setdays{
+    width: 90%;
+     margin: auto; 
+     display: block;
+     margin-top: 15px;
+     height: 165px;
+  }
+
+  .paddingtwo{
+    width: 97%;
+    position: relative;
+    margin:auto;
+    align-items: center;
+    margin-left: -1px;
+}
+
+.addbutton{
+  margin-right: 1%;
+}
+
+.addbuttonsize{
+  font-size: 1.9em;
+}
+

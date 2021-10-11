@@ -1,0 +1,34 @@
+.forgotten{
+    text-align: center;
+    margin-top: 6px;
+}
+
+.group2285{
+    width: 310px;
+    height: 310px;
+    top: 3%;
+    margin: auto; 
+   display: block;
+
+}
+
+.email{
+text-align: center; 
+width: 83%; 
+margin:auto;
+line-height: 23px;
+margin-top:-11%;
+}
+
+.mailout2{
+    width:  12px;
+    height: 12px; 
+    position: relative;
+    left: -5%;
+    margin-top: 14%;
+}
+
+.emailad{
+    margin-top:12%;
+     width: 190%;
+}

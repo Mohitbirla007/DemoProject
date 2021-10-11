@@ -1,0 +1,26 @@
+.firstcard{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    margin-top:8%; 
+}
+
+.deleteheader{
+    width: 90%;
+    position: relative;
+    margin:auto;
+    text-align: center;
+    margin-top: 8%;
+}
+
+.blockthree {
+    width: 90%;
+    text-align: center;
+    margin-top: 16%; 
+}
+
+.indi2{
+      
+    width: 98%;
+    margin-top:8%;
+}
