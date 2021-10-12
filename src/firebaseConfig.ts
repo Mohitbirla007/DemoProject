@@ -17,11 +17,12 @@ const config = {
 const firebaseApp = firebase.initializeApp(config);
 const db = firebaseApp.firestore();
 const auth = firebase.auth();
+const realtimedb = firebase.database();
 const storageRef = firebase.storage().ref();
 const providerGoogle = new firebase.auth.GoogleAuthProvider();
 const providerFacebook = new firebase.auth.FacebookAuthProvider();
 
-export { auth, storageRef, providerFacebook, providerGoogle };
+export { auth, storageRef, providerFacebook, providerGoogle, realtimedb };
 export default db;
 
 export async function loginUser(username: string, password: string) {
