@@ -25,13 +25,15 @@ import {
   useIonViewDidEnter,
 } from "@ionic/react";
 import { addOutline, pencil } from "ionicons/icons";
+import db, { auth } from "../firebaseConfig";
 import "./Messages.css";
 
 const Messages: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
-  useIonViewDidEnter(() => {
-    console.log("ionViewDidEnter event fired");
+  useIonViewDidEnter(async () => {
+    let data = await auth.currentUser;
+    console.log("ionViewDidEnter event fired", data);
   });
 
   return (
