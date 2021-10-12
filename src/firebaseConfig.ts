@@ -3,14 +3,15 @@ import firebase from "firebase";
 import { toast } from "./toast";
 
 const config = {
-  apiKey: "AIzaSyAsgCXMa0SMNIG5hL2GsS4xpl_Jj-q3IjU", //updated
-  authDomain: "indi-d4f1b.firebaseapp.com", //updated
-  databaseURL: "https://indi-d4f1b-default-rtdb.firebaseio.com/", //updated
-  projectId: "indi-d4f1b", //updated
-  storageBucket: "indi-da614.appspot.com",
-  messagingSenderId: "356472484887", //updated
-  //   appId: "1:662956774567:web:35cdae712abce7e9cef782",
   //   measurementId: "G-J6W8CMV4BH",
+  ///////////////////////////////////////
+  apiKey: "AIzaSyAsgCXMa0SMNIG5hL2GsS4xpl_Jj-q3IjU",
+  authDomain: "indi-d4f1b.firebaseapp.com",
+  databaseURL: "https://indi-d4f1b-default-rtdb.firebaseio.com",
+  projectId: "indi-d4f1b",
+  storageBucket: "indi-d4f1b.appspot.com",
+  messagingSenderId: "356472484887",
+  appId: "1:356472484887:web:cf0ede5e12ee2befdc9852",
 };
 
 const firebaseApp = firebase.initializeApp(config);
