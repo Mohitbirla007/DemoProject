@@ -24,7 +24,7 @@ import {
   IonIcon,
   useIonViewDidEnter,
 } from "@ionic/react";
-import { addOutline, pencil } from "ionicons/icons";
+import { addOutline, pencil, personCircle } from "ionicons/icons";
 import db, { auth, realtimedb } from "../firebaseConfig";
 import "./Messages.css";
 import { iteratorSymbol } from "@reduxjs/toolkit/node_modules/immer/dist/internal";
@@ -64,6 +64,9 @@ const Messages: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle className="title">Messages</IonTitle>
+          <IonButton slot="secondary" color="ioncolor">
+            <IonIcon icon={pencil} color="danger" />
+          </IonButton>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -78,7 +81,7 @@ const Messages: React.FC = () => {
           <h6 className="suggested">Messages</h6>
           {chatList.map((object: any, i: any) => {
             return (
-              <IonCard className="director">
+              <IonCard className="director" routerLink="/ChatScreen">
                 <IonItemSliding>
                   <IonItem lines="none">
                     <IonAvatar slot="start">
