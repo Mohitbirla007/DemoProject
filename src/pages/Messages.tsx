@@ -23,6 +23,7 @@ import {
   IonButton,
   IonIcon,
   useIonViewDidEnter,
+  IonDatetime,
 } from "@ionic/react";
 import { addOutline, pencil, personCircle } from "ionicons/icons";
 import db, { auth, realtimedb } from "../firebaseConfig";
@@ -157,7 +158,13 @@ const Messages: React.FC = () => {
                           <h2>{object.email}</h2>
                           <p>{object.recentMessage}</p>
                         </IonLabel>
-                        <IonNote slot="end">{object.timeStamp}</IonNote>
+                        {object.timeStamp}
+                        {/* <IonNote slot="end">
+                          <IonDatetime
+                            value={object.timeStamp}
+                            displayFormat="MMM DD, YYYY HH:mm"
+                          />
+                        </IonNote> */}
                       </IonItem>
                       <IonItemOptions side="end">
                         <IonItemOption color="danger" onClick={() => {}}>

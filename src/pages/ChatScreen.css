@@ -289,3 +289,13 @@
   background-color: red;
   width: 100%;
 }
+.msgBubble-right {
+  background-color: blue;
+  width: 70%;
+  float: right;
+}
+.msgBubble-left {
+  background-color: blue;
+  width: 70%;
+  float: left;
+}

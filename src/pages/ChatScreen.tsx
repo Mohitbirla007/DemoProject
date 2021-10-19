@@ -142,13 +142,26 @@ const ChatScreen: React.FC = (props) => {
     var currDate: any = new Date();
     if (!firstMsg) {
       console.log("send data", message, currDate);
+      //add message to firebase
       var userPath = realtimedb.ref("conversation/" + locationId);
       userPath
         .push({
           msgType: "text",
           text: message,
           uid: uid,
-          timestamp: currDate,
+          timeStamp: currDate,
+        })
+        .then(() => {
+          setMessage("");
+        })
+        .catch(function (e) {});
+
+      //update recent message and timeStamp
+      var chatlistpath = realtimedb.ref("chatlist/" + uid + "/" + opponentUID);
+      chatlistpath
+        .update({
+          recentMessage: message,
+          timeStamp: currDate,
         })
         .then(() => {
           setMessage("");
@@ -164,7 +177,7 @@ const ChatScreen: React.FC = (props) => {
           msgType: "text",
           text: message,
           uid: uid,
-          timestamp: currDate,
+          timeStamp: currDate,
         })
         .then(() => {
           setMessage("");
@@ -180,7 +193,7 @@ const ChatScreen: React.FC = (props) => {
           recentMessage: message,
           email: userData?.email,
           uid: opponentUID,
-          timestamp: currDate,
+          timeStamp: currDate,
         })
         .then(() => {
           setMessage("");
@@ -328,7 +341,11 @@ const ChatScreen: React.FC = (props) => {
       <IonList className="message-list">
         {chatList.map((object: any, i: any) => {
           return (
-            <IonCard className="director" routerLink="/ChatScreen">
+            <IonCard
+              className={
+                object.uid !== uid ? "msgBubble-right" : "msgBubble-left"
+              }
+            >
               <IonItem lines="none">
                 <IonLabel>
                   <p>{object.text}</p>
