@@ -32,6 +32,7 @@ import { iteratorSymbol } from "@reduxjs/toolkit/node_modules/immer/dist/interna
 const Messages: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [chatList, setChatList] = useState<any>([]);
+  const [filterData, setFilterData] = useState<any>(null);
 
   useIonViewDidEnter(async () => {
     var data = await auth.currentUser;
@@ -51,6 +52,7 @@ const Messages: React.FC = () => {
           recentMessage: data.recentMessage,
           timeStamp: data.timeStamp,
           profilepic: data.profilePic,
+          email: data.email,
         };
         items.push(jsonObject);
       });
@@ -60,11 +62,17 @@ const Messages: React.FC = () => {
   });
 
   function sortSearchData(data: string) {
-    setSearchText(data);
-    var result = chatList.filter(function (o: any) {
-      return o.email == data;
-    });
-    console.log("filtered data", result);
+    if (data !== "") {
+      setSearchText(data);
+      var result = chatList.filter((item: any) => {
+        return item.userName.toLowerCase().indexOf(data.toLowerCase()) > -1;
+      });
+      console.log("filtered data", result, data, chatList);
+      setFilterData(result);
+    } else {
+      setFilterData(null);
+      setSearchText("");
+    }
   }
 
   return (
@@ -87,36 +95,67 @@ const Messages: React.FC = () => {
         {/*-- List of Sliding Items --*/}
         <IonList>
           <h6 className="suggested">Messages</h6>
-          {chatList.map((object: any, i: any) => {
-            return (
-              <IonCard className="director" routerLink="/ChatScreen">
-                <IonItemSliding>
-                  <IonItem lines="none">
-                    <IonAvatar slot="start">
-                      <img src={object.profilepic} />
-                    </IonAvatar>
-                    <IonLabel>
-                      <h2>{object.userName}</h2>
-                      <p>{object.recentMessage}</p>
-                    </IonLabel>
-                    <IonNote slot="end">{object.timeStamp}</IonNote>
-                  </IonItem>
-                  <IonItemOptions side="end">
-                    <IonItemOption color="danger" onClick={() => {}}>
-                      Mute
-                    </IonItemOption>
-                    <IonItemOption
-                      className="messagedelete"
-                      color="warning"
-                      onClick={() => {}}
-                    >
-                      Delete
-                    </IonItemOption>
-                  </IonItemOptions>
-                </IonItemSliding>
-              </IonCard>
-            );
-          })}
+          {filterData !== null
+            ? filterData.map((object: any, i: any) => {
+                return (
+                  <IonCard className="director" routerLink="/ChatScreen">
+                    <IonItemSliding>
+                      <IonItem lines="none">
+                        <IonAvatar slot="start">
+                          <img src={object.profilepic} />
+                        </IonAvatar>
+                        <IonLabel>
+                          <h2>{object.userName}</h2>
+                          <p>{object.recentMessage}</p>
+                        </IonLabel>
+                        <IonNote slot="end">{object.timeStamp}</IonNote>
+                      </IonItem>
+                      <IonItemOptions side="end">
+                        <IonItemOption color="danger" onClick={() => {}}>
+                          Mute
+                        </IonItemOption>
+                        <IonItemOption
+                          className="messagedelete"
+                          color="warning"
+                          onClick={() => {}}
+                        >
+                          Delete
+                        </IonItemOption>
+                      </IonItemOptions>
+                    </IonItemSliding>
+                  </IonCard>
+                );
+              })
+            : chatList.map((object: any, i: any) => {
+                return (
+                  <IonCard className="director" routerLink="/ChatScreen">
+                    <IonItemSliding>
+                      <IonItem lines="none">
+                        <IonAvatar slot="start">
+                          <img src={object.profilepic} />
+                        </IonAvatar>
+                        <IonLabel>
+                          <h2>{object.userName}</h2>
+                          <p>{object.recentMessage}</p>
+                        </IonLabel>
+                        <IonNote slot="end">{object.timeStamp}</IonNote>
+                      </IonItem>
+                      <IonItemOptions side="end">
+                        <IonItemOption color="danger" onClick={() => {}}>
+                          Mute
+                        </IonItemOption>
+                        <IonItemOption
+                          className="messagedelete"
+                          color="warning"
+                          onClick={() => {}}
+                        >
+                          Delete
+                        </IonItemOption>
+                      </IonItemOptions>
+                    </IonItemSliding>
+                  </IonCard>
+                );
+              })}
         </IonList>
       </IonContent>
     </IonPage>
