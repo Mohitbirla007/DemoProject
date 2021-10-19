@@ -50,6 +50,7 @@ import { iteratorSymbol } from "@reduxjs/toolkit/node_modules/immer/dist/interna
 
 const ChatScreen: React.FC = (props) => {
   const [uid, setUid] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [chatList, setChatList] = useState<any>([]);
   const [message, setMessage] = useState<string>("");
   const [showSendButton, setShowSendButton] = useState(false);
@@ -81,7 +82,9 @@ const ChatScreen: React.FC = (props) => {
   useIonViewDidEnter(async () => {
     var data = await auth.currentUser;
     var uid = data?.uid;
+    var email = data?.email;
     setUid(uid!);
+    setEmail(email!);
     console.log("ionViewDidEnter event fired", data?.uid, opponentUID);
     //fetching opponent message location id
     var locationIdPath = realtimedb.ref(
@@ -183,7 +186,7 @@ const ChatScreen: React.FC = (props) => {
           setMessage("");
         })
         .catch(function (e) {});
-      //generate data in chatlist
+      //generate data in chatlist self
       var chatlistpath = realtimedb.ref("chatlist/" + uid + "/" + opponentUID);
       chatlistpath
         .set({
@@ -193,6 +196,22 @@ const ChatScreen: React.FC = (props) => {
           recentMessage: message,
           email: userData?.email,
           uid: opponentUID,
+          timeStamp: currDate,
+        })
+        .then(() => {
+          setMessage("");
+        })
+        .catch(function (e) {});
+      //generate data in chatlist opponent
+      var chatlistpath = realtimedb.ref("chatlist/" + opponentUID + "/" + uid);
+      chatlistpath
+        .set({
+          locationId: locId,
+          profilePic: "",
+          userName: "",
+          recentMessage: message,
+          email: email,
+          uid: uid,
           timeStamp: currDate,
         })
         .then(() => {
