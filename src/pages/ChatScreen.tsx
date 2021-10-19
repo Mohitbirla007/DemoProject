@@ -48,7 +48,7 @@ import db, { auth, realtimedb } from "../firebaseConfig";
 import "./ChatScreen.css";
 import { iteratorSymbol } from "@reduxjs/toolkit/node_modules/immer/dist/internal";
 
-const ChatScreen: React.FC = () => {
+const ChatScreen: React.FC = (props) => {
   const [uid, setUid] = useState<string>("");
   const [chatList, setChatList] = useState<any>([]);
   const [message, setMessage] = useState<string>("");
@@ -61,7 +61,15 @@ const ChatScreen: React.FC = () => {
 
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-
+  const [firstMsg, setFirstMsg] = useState<any>(false);
+  const [propData, setPropData] = useState<any>(props);
+  // console.log("props data", props);
+  // var userData = propData?.location?.state?.userData;
+  const [userData, setUserData] = useState<any>(
+    propData?.location?.state?.userData
+  );
+  const [locationId, setLocationId] = useState<any>(userData?.locationId);
+  const [opponentUID, setOpponentUID] = useState<any>(userData?.uid);
   //  Refs
   // const contentRef = useRef<HTMLDivElement>();
   // const swiperRefs = useRef<HTMLDivElement>([]);
@@ -74,9 +82,26 @@ const ChatScreen: React.FC = () => {
     var data = await auth.currentUser;
     var uid = data?.uid;
     setUid(uid!);
-    console.log("ionViewDidEnter event fired", data);
+    console.log("ionViewDidEnter event fired", data?.uid, opponentUID);
+    //fetching opponent message location id
+    var locationIdPath = realtimedb.ref(
+      "chatlist/" + data?.uid + "/" + opponentUID
+    );
+    console.log("locationIdpath", locationIdPath);
+    locationIdPath.once("value", (snapshot) => {
+      if (snapshot.val() !== null && snapshot.val() !== undefined) {
+        console.log("opponent data", snapshot.val(), snapshot.key);
+        setLocationId(snapshot.val().locationId);
+        fetchChat(snapshot.val().locationId);
+      } else {
+        setFirstMsg(true);
+      }
+    });
+  });
 
-    var userPath = realtimedb.ref("conversation/12345");
+  function fetchChat(data: string) {
+    var userPath = realtimedb.ref("conversation/" + data);
+    console.log("firebase user path", userPath);
     userPath.on("value", (snapshot) => {
       let items: string[] = [];
       console.log("chat data", snapshot.val(), snapshot.key);
@@ -94,7 +119,7 @@ const ChatScreen: React.FC = () => {
       setChatList(items);
       console.log("item data", items);
     });
-  });
+  }
 
   const toaster = () => {
     setToastMessage("test toast");
@@ -113,29 +138,69 @@ const ChatScreen: React.FC = () => {
     toValue: "0%",
   };
 
-  // const handlePrompt = async () => {
-
-  //   console.log("handlePrompt");
-  // };
   function handlePrompt(data: string) {
     var currDate: any = new Date();
-    console.log("send data", message, currDate);
-    var userPath = realtimedb.ref("conversation/12345");
-    userPath
-      .push({
-        msgType: "text",
-        text: message,
-        uid: uid,
-        timestamp: currDate,
-      })
-      .then(() => {
-        setMessage("");
-      })
-      .catch(function (e) {});
+    if (!firstMsg) {
+      console.log("send data", message, currDate);
+      var userPath = realtimedb.ref("conversation/" + locationId);
+      userPath
+        .push({
+          msgType: "text",
+          text: message,
+          uid: uid,
+          timestamp: currDate,
+        })
+        .then(() => {
+          setMessage("");
+        })
+        .catch(function (e) {});
+    } else {
+      var locId = makeid(20);
+      setLocationId(locId);
+      //generate data in conversation list
+      var userPath = realtimedb.ref("conversation/" + locId);
+      userPath
+        .push({
+          msgType: "text",
+          text: message,
+          uid: uid,
+          timestamp: currDate,
+        })
+        .then(() => {
+          setMessage("");
+        })
+        .catch(function (e) {});
+      //generate data in chatlist
+      var chatlistpath = realtimedb.ref("chatlist/" + uid + "/" + opponentUID);
+      chatlistpath
+        .set({
+          locationId: locId,
+          profilePic: "",
+          userName: "",
+          recentMessage: message,
+          email: userData?.email,
+          uid: opponentUID,
+          timestamp: currDate,
+        })
+        .then(() => {
+          setMessage("");
+        })
+        .catch(function (e) {});
+      setFirstMsg(false);
+      fetchChat(locId);
+    }
   }
-  // const handleSend = async (data) => {
-  //   console.log("handlePrompt");
-  // };
+
+  function makeid(length: number) {
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
 
   const sideButtonsAnimation = {
     duration: 200,

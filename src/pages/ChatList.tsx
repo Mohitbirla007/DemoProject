@@ -29,12 +29,13 @@ import { addOutline, pencil, personCircle } from "ionicons/icons";
 import db, { auth, realtimedb } from "../firebaseConfig";
 import "./ChatList.css";
 import { iteratorSymbol } from "@reduxjs/toolkit/node_modules/immer/dist/internal";
+import { useHistory } from "react-router";
 
 const ChatList: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [userList, setUserList] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>(null);
-
+  let history = useHistory();
   useIonViewDidEnter(async () => {
     // var data = await auth.currentUser;
     // var uid = data?.uid
@@ -47,11 +48,11 @@ const ChatList: React.FC = () => {
       snapshot.forEach(function (childSnapshot) {
         var key = childSnapshot.key;
         var data = childSnapshot.val();
-        console.log("all data", data.userName, data.recentMessage);
         let jsonObject: any = {
           userName: data.userName,
           email: data.email,
           profilepic: data.profilePic,
+          uid: data.uid,
         };
         items.push(jsonObject);
       });
@@ -101,7 +102,15 @@ const ChatList: React.FC = () => {
           {filterData !== null
             ? filterData.map((object: any, i: any) => {
                 return (
-                  <IonCard className="director" routerLink="/ChatScreen">
+                  <IonCard
+                    className="director"
+                    onClick={() => {
+                      history.push({
+                        pathname: "/ChatScreen",
+                        state: { userData: object },
+                      });
+                    }}
+                  >
                     <IonItem lines="none">
                       <IonAvatar slot="start">
                         <img src={object.profilepic} />
@@ -115,7 +124,15 @@ const ChatList: React.FC = () => {
               })
             : userList.map((object: any, i: any) => {
                 return (
-                  <IonCard className="director" routerLink="/ChatScreen">
+                  <IonCard
+                    className="director"
+                    onClick={() => {
+                      history.push({
+                        pathname: "/ChatScreen",
+                        state: { userData: object },
+                      });
+                    }}
+                  >
                     <IonItem lines="none">
                       <IonAvatar slot="start">
                         <img src={object.profilepic} />

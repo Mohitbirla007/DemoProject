@@ -28,12 +28,13 @@ import { addOutline, pencil, personCircle } from "ionicons/icons";
 import db, { auth, realtimedb } from "../firebaseConfig";
 import "./Messages.css";
 import { iteratorSymbol } from "@reduxjs/toolkit/node_modules/immer/dist/internal";
+import { useHistory } from "react-router";
 
 const Messages: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [chatList, setChatList] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>(null);
-
+  let history = useHistory();
   useIonViewDidEnter(async () => {
     var data = await auth.currentUser;
     // var uid = data?.uid
@@ -53,6 +54,8 @@ const Messages: React.FC = () => {
           timeStamp: data.timeStamp,
           profilepic: data.profilePic,
           email: data.email,
+          locationId: data.locationId,
+          uid: data.uid,
         };
         items.push(jsonObject);
       });
@@ -65,7 +68,7 @@ const Messages: React.FC = () => {
     if (data !== "") {
       setSearchText(data);
       var result = chatList.filter((item: any) => {
-        return item.userName.toLowerCase().indexOf(data.toLowerCase()) > -1;
+        return item.email.toLowerCase().indexOf(data.toLowerCase()) > -1;
       });
       console.log("filtered data", result, data, chatList);
       setFilterData(result);
@@ -98,14 +101,22 @@ const Messages: React.FC = () => {
           {filterData !== null
             ? filterData.map((object: any, i: any) => {
                 return (
-                  <IonCard className="director" routerLink="/ChatScreen">
+                  <IonCard
+                    className="director"
+                    onClick={() => {
+                      history.push({
+                        pathname: "/ChatScreen",
+                        state: { userData: object },
+                      });
+                    }}
+                  >
                     <IonItemSliding>
                       <IonItem lines="none">
                         <IonAvatar slot="start">
                           <img src={object.profilepic} />
                         </IonAvatar>
                         <IonLabel>
-                          <h2>{object.userName}</h2>
+                          <h2>{object.email}</h2>
                           <p>{object.recentMessage}</p>
                         </IonLabel>
                         <IonNote slot="end">{object.timeStamp}</IonNote>
@@ -128,14 +139,22 @@ const Messages: React.FC = () => {
               })
             : chatList.map((object: any, i: any) => {
                 return (
-                  <IonCard className="director" routerLink="/ChatScreen">
+                  <IonCard
+                    className="director"
+                    onClick={() => {
+                      history.push({
+                        pathname: "/ChatScreen",
+                        state: { userData: object },
+                      });
+                    }}
+                  >
                     <IonItemSliding>
                       <IonItem lines="none">
                         <IonAvatar slot="start">
                           <img src={object.profilepic} />
                         </IonAvatar>
                         <IonLabel>
-                          <h2>{object.userName}</h2>
+                          <h2>{object.email}</h2>
                           <p>{object.recentMessage}</p>
                         </IonLabel>
                         <IonNote slot="end">{object.timeStamp}</IonNote>
