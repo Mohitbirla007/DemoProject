@@ -139,7 +139,7 @@ const ChatScreen: React.FC = (props) => {
   };
 
   function handlePrompt(data: string) {
-    var currDate: any = new Date();
+    var currDate: any = new Date().toLocaleString();
     if (!firstMsg) {
       console.log("send data", message, currDate);
       //add message to firebase
@@ -255,98 +255,18 @@ const ChatScreen: React.FC = (props) => {
               </div>
             </div>
           </IonTitle>
-
-          {/* <IonButtons slot="end">
-            <IonButton
-              fill="clear"
-              onClick={() =>
-                // toaster(
-                //   "As this is a UI only, video calling wouldn't work here."
-                // )
-                toaster()
-              }
-            >
-              <IonIcon icon={videocamOffOutline} />
-            </IonButton>
-
-            <IonButton
-              fill="clear"
-              onClick={() =>
-                // toaster("As this is a UI only, calling wouldn't work here.")
-                toaster()
-              }
-            >
-              <IonIcon icon={callOutline} />
-            </IonButton>
-          </IonButtons> */}
         </IonToolbar>
       </IonHeader>
-
-      {/* <IonContent id="main-chat-content" ref={contentRef}>
-        {chat.map((message, index) => {
-          const repliedMessage = chat.filter(
-            (subMessage) =>
-              parseInt(subMessage.id) === parseInt(message.replyID)
-          )[0];
-
-          return (
-            <div
-              ref={(ref) => (swiperRefs.current[index] = ref)}
-              id={`chatBubble_${message.id}`}
-              key={index}
-              className={`chat-bubble ${
-                message.sent ? "bubble-sent" : "bubble-received"
-              }`}
-              {...longPressEvent}
-            >
-              <div id={`chatText_${message.id}`}>
-                <ChatRepliedQuote
-                  message={message}
-                  contact={contact}
-                  repliedMessage={repliedMessage}
-                />
-
-                {message.preview}
-                {message.image && message.imagePath && (
-                  <img src={message.imagePath} alt="chat message" />
-                )}
-                <ChatBottomDetails message={message} />
-              </div>
-
-              <div className={`bubble-arrow ${message.sent && "alt"}`}></div>
-            </div>
-          );
-        })}
-
-        <IonActionSheet
-          header="Message Actions"
-          subHeader={actionMessage && actionMessage.preview}
-          isOpen={showActionSheet}
-          onDidDismiss={() => setShowActionSheet(false)}
-          buttons={actionSheetButtons}
-        />
-
-        <IonToast
-          color="primary"
-          isOpen={showToast}
-          onDidDismiss={() => setShowToast(false)}
-          message={toastMessage}
-          position="bottom"
-          duration="3000"
-        />
-      </IonContent> */}
-
-      {/* {replyToMessage && <ReplyTo {...replyToProps} />} */}
 
       <IonList className="message-list">
         {chatList.map((object: any, i: any) => {
           return (
             <IonCard
               className={
-                object.uid !== uid ? "msgBubble-right" : "msgBubble-left"
+                object.uid === uid ? "msgBubble-right" : "msgBubble-left"
               }
             >
-              <IonItem lines="none">
+              <IonItem className="message-bubblesize">
                 <IonLabel>
                   <p>{object.text}</p>
                 </IonLabel>
