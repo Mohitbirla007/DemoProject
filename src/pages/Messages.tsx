@@ -59,12 +59,20 @@ const Messages: React.FC = () => {
     });
   });
 
+  function sortSearchData(data: string) {
+    setSearchText(data);
+    var result = chatList.filter(function (o: any) {
+      return o.email == data;
+    });
+    console.log("filtered data", result);
+  }
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle className="title">Messages</IonTitle>
-          <IonButton slot="secondary" color="ioncolor">
+          <IonButton slot="secondary" color="ioncolor" routerLink="/ChatList">
             <IonIcon icon={pencil} color="danger" />
           </IonButton>
         </IonToolbar>
@@ -73,7 +81,7 @@ const Messages: React.FC = () => {
         <IonSearchbar
           className="searchbar"
           value={searchText}
-          onIonChange={(e) => setSearchText(e.detail.value!)}
+          onIonChange={(e) => sortSearchData(e.detail.value!)}
         ></IonSearchbar>
 
         {/*-- List of Sliding Items --*/}

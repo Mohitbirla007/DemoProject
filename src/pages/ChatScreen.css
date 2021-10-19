@@ -135,6 +135,12 @@
   margin-right: 0.75rem;
 }
 
+.message-list {
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .chat-send-button {
   margin: 0 !important;
   padding: 0 !important;

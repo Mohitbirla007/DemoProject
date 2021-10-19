@@ -260,7 +260,7 @@ const ChatScreen: React.FC = () => {
 
       {/* {replyToMessage && <ReplyTo {...replyToProps} />} */}
 
-      <IonList>
+      <IonList className="message-list">
         {chatList.map((object: any, i: any) => {
           return (
             <IonCard className="director" routerLink="/ChatScreen">
