@@ -4,18 +4,9 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonSearchbar,
   IonList,
   IonItem,
   IonLabel,
-  IonInput,
-  IonToggle,
-  IonRadio,
-  IonCheckbox,
-  IonItemSliding,
-  IonItemOption,
-  IonItemOptions,
-  IonContent,
   IonCard,
   IonAvatar,
   IonNote,
@@ -34,19 +25,11 @@ import {
   IonTextarea,
   CreateAnimation,
 } from "@ionic/react";
-import {
-  addOutline,
-  callOutline,
-  cameraOutline,
-  micOutline,
-  pencil,
-  personCircle,
-  send,
-  videocamOffOutline,
-} from "ionicons/icons";
-import db, { auth, realtimedb } from "../firebaseConfig";
+import { addOutline, cameraOutline, send } from "ionicons/icons";
+import { auth, realtimedb, storageRef } from "../firebaseConfig";
 import "./ChatScreen.css";
-import { iteratorSymbol } from "@reduxjs/toolkit/node_modules/immer/dist/internal";
+import { Plugins, CameraResultType } from "@capacitor/core";
+const { Camera } = Plugins;
 
 const ChatScreen: React.FC = (props) => {
   const [uid, setUid] = useState<string>("");
@@ -234,6 +217,21 @@ const ChatScreen: React.FC = (props) => {
     return result;
   }
 
+  async function takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+    });
+    var imageUrl = image.webPath;
+    console.log("image path", image, imageUrl);
+    // storageRef.put
+    // Can be set to the src of an image now
+    // this.setState({
+    // photo: imageUrl
+    // })
+  }
+
   const sideButtonsAnimation = {
     duration: 200,
     direction: showSendButton ? "normal" : "reverse",
@@ -269,7 +267,7 @@ const ChatScreen: React.FC = (props) => {
             <div className="chat-contact">
               {/* <img src={contact.avatar} alt="avatar" /> */}
               <div className="chat-contact-details">
-                <p>test chat screen</p>
+                <p>{userData?.email}</p>
                 {/* <IonText color="medium">last seen today at 22:10</IonText> */}
               </div>
             </div>
@@ -303,59 +301,17 @@ const ChatScreen: React.FC = (props) => {
               <IonIcon
                 icon={addOutline}
                 color="primary"
-                onClick={() => handlePrompt("add button")}
+                onClick={() => takePicture()}
               />
             </IonCol>
-
             <div className="chat-input-container">
-              {/* <CreateAnimation
-                duration={200}
-                fromTo={widthAnimation}
-                easing="ease-out"
-                iterations={1}
-                direction={!showSendButton ? "normal" : "reverse"}
-                // duration: 200,
-                // direction: !showSendButton ? "normal" : "reverse",
-                // iterations: "1",
-                // fromTo: [widthAnimation],
-                // easing: "ease-in-out",
-              > */}
               <IonTextarea
                 rows={1}
                 placeholder={"type here..."}
                 value={message}
                 onIonChange={(e: any) => setMessage(e.detail.value!)}
               />
-              {/* </CreateAnimation> */}
             </div>
-
-            {/* <CreateAnimation
-              duration={200}
-              fromTo={fadeAnimation}
-              easing="ease-out"
-              iterations={1}
-              direction={!showSendButton ? "normal" : "reverse"}
-            > */}
-            <IonCol size="1">
-              <IonIcon
-                icon={cameraOutline}
-                color="primary"
-                onClick={() => handlePrompt("camera button")}
-              />
-            </IonCol>
-
-            {/* <IonCol size="1">
-                <IonIcon icon={micOutline} color="primary" />
-              </IonCol> */}
-            {/* </CreateAnimation> */}
-
-            {/* <CreateAnimation
-              duration={200}
-              fromTo={fadeAnimation}
-              easing="ease-out"
-              iterations={1}
-              direction={!showSendButton ? "normal" : "reverse"}
-            > */}
             <IonCol
               size="1"
               className="chat-send-button"
@@ -363,7 +319,6 @@ const ChatScreen: React.FC = (props) => {
             >
               <IonIcon icon={send} />
             </IonCol>
-            {/* </CreateAnimation> */}
           </IonRow>
         </IonGrid>
       </IonFooter>
