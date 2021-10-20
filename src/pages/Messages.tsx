@@ -42,7 +42,7 @@ const Messages: React.FC = () => {
     console.log("ionViewDidEnter event fired", data);
 
     var userPath = realtimedb.ref("chatlist/" + data?.uid);
-    userPath.once("value", (snapshot) => {
+    userPath.on("value", (snapshot) => {
       let items: string[] = [];
       console.log("chat list data", snapshot.val(), snapshot.key);
       snapshot.forEach(function (childSnapshot) {
@@ -60,6 +60,7 @@ const Messages: React.FC = () => {
         };
         items.push(jsonObject);
       });
+      items.sort((a: any, b: any) => (a.timeStamp > b.timeStamp ? -1 : 1));
       setChatList(items);
       console.log("item data", items);
     });
