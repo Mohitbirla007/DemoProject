@@ -142,7 +142,7 @@ const ChatScreen: React.FC = (props) => {
   };
 
   function handlePrompt(data: string) {
-    var currDate: any = new Date().toLocaleString();
+    var currDate: any = new Date().toLocaleString("en-IN");
     if (!firstMsg) {
       console.log("send data", message, currDate);
       //add message to firebase

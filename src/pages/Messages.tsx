@@ -158,13 +158,7 @@ const Messages: React.FC = () => {
                           <h2>{object.email}</h2>
                           <p>{object.recentMessage}</p>
                         </IonLabel>
-                        {object.timeStamp}
-                        {/* <IonNote slot="end">
-                          <IonDatetime
-                            value={object.timeStamp}
-                            displayFormat="MMM DD, YYYY HH:mm"
-                          />
-                        </IonNote> */}
+                        <IonNote slot="end">{object.timeStamp}</IonNote>
                       </IonItem>
                       <IonItemOptions side="end">
                         <IonItemOption color="danger" onClick={() => {}}>
