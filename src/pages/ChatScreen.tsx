@@ -156,6 +156,7 @@ const ChatScreen: React.FC = (props) => {
           text: data === "text" ? message : msg,
           uid: uid,
           timeStamp: currDate,
+          isRead: false,
         })
         .then(() => {
           setMessage("");
@@ -200,6 +201,7 @@ const ChatScreen: React.FC = (props) => {
           text: data === "text" ? message : msg,
           uid: uid,
           timeStamp: currDate,
+          isRead: false,
         })
         .then(() => {
           setMessage("");
