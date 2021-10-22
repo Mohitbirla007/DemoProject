@@ -40,11 +40,13 @@ import { Storage } from "@capacitor/storage";
 import { Capacitor } from "@capacitor/core";
 
 const ChatScreen: React.FC = (props) => {
+  var isRead = false;
   const [uid, setUid] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [chatList, setChatList] = useState<any>([]);
   const [message, setMessage] = useState<string>("");
   const [showSendButton, setShowSendButton] = useState(false);
+  const [totalChat, setTotalChat] = useState<any>(0);
   const [replyToMessage, setReplyToMessage] = useState(false);
   const [messageSent, setMessageSent] = useState(false);
 
@@ -119,11 +121,13 @@ const ChatScreen: React.FC = (props) => {
           text: data.text,
           timeStamp: data.timeStamp,
           profilePic: data.profilePic,
+          isRead: data.isRead,
         };
         items.push(jsonObject);
       });
       setChatList(items);
-      console.log("item data", items);
+      setTotalChat(items.length);
+      console.log("item data", items, items.length);
     });
   }
 
@@ -330,6 +334,8 @@ const ChatScreen: React.FC = (props) => {
 
       <IonList className="message-list">
         {chatList.map((object: any, i: any) => {
+          // isRead = object.isRead;
+          // console.log("isread", isRead, i);
           return (
             <IonRow
               className={
@@ -364,6 +370,7 @@ const ChatScreen: React.FC = (props) => {
                   <IonNote slot="end">{object.timeStamp}</IonNote>
                 </IonItem>
               </IonCard>
+              <IonNote>{totalChat === i + 1 && isRead && "Seen"}</IonNote>
             </IonRow>
           );
         })}
