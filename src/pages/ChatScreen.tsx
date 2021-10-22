@@ -56,6 +56,7 @@ const ChatScreen: React.FC = (props) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [firstMsg, setFirstMsg] = useState<any>(false);
+  const [firstTime, setFirstTime] = useState<any>(true);
   const [propData, setPropData] = useState<any>(props);
   // console.log("props data", props);
   // var userData = propData?.location?.state?.userData;
@@ -73,6 +74,7 @@ const ChatScreen: React.FC = (props) => {
   // const replyToAnimationRef = useRef();
 
   useIonViewDidEnter(async () => {
+    // setFirstTime(true);
     var data = await auth.currentUser;
     var uid = data?.uid;
     var email = data?.email;
@@ -111,9 +113,10 @@ const ChatScreen: React.FC = (props) => {
     console.log("firebase user path", userPath);
     userPath.on("value", (snapshot) => {
       let items: string[] = [];
+      let keys: any[] = [];
       console.log("chat data", snapshot.val(), snapshot.key);
       snapshot.forEach(function (childSnapshot) {
-        var key = childSnapshot.key;
+        var key: any = childSnapshot.key;
         var data = childSnapshot.val();
         let jsonObject: any = {
           msgType: data.msgType,
@@ -124,10 +127,33 @@ const ChatScreen: React.FC = (props) => {
           isRead: data.isRead,
         };
         items.push(jsonObject);
+        keys.push(key);
       });
       setChatList(items);
-      setTotalChat(items.length);
-      console.log("item data", items, items.length);
+      setTotalChat(items.length - 1);
+      console.log("item data", items, items.length, keys);
+      let tempItem: any = items[items.length - 1];
+      let tempkey: any = keys[keys.length - 1];
+      let tempUid: any = tempItem.uid;
+      if (firstTime) {
+        setFirstTime(false);
+        if (tempUid === uid) {
+          console.log("opponent message");
+          var chatlistpath = realtimedb.ref(
+            "conversation/" + data + "/" + tempkey
+          );
+          chatlistpath
+            .update({
+              lastSeen: true,
+            })
+            .then(() => {
+              setMessage("");
+            })
+            .catch(function (e) {});
+        } else {
+          console.log("own message");
+        }
+      }
     });
   }
 
@@ -334,8 +360,8 @@ const ChatScreen: React.FC = (props) => {
 
       <IonList className="message-list">
         {chatList.map((object: any, i: any) => {
-          // isRead = object.isRead;
-          // console.log("isread", isRead, i);
+          isRead = object.isRead;
+          console.log("isread", isRead, i);
           return (
             <IonRow
               className={
@@ -370,7 +396,15 @@ const ChatScreen: React.FC = (props) => {
                   <IonNote slot="end">{object.timeStamp}</IonNote>
                 </IonItem>
               </IonCard>
-              <IonNote>{totalChat === i + 1 && isRead && "Seen"}</IonNote>
+              <IonNote className={"seen-style"}>
+                {totalChat === i
+                  ? isRead
+                    ? object.uid === uid
+                      ? null
+                      : "Seen"
+                    : null
+                  : null}
+              </IonNote>
             </IonRow>
           );
         })}

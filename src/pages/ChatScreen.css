@@ -319,3 +319,7 @@
   width: 40px;
   height: 40px;
 }
+.seen-style {
+  align-self: flex-end;
+  margin-bottom: 10px;
+}
