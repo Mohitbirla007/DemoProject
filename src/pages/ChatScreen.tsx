@@ -90,7 +90,7 @@ const ChatScreen: React.FC = (props) => {
       if (snapshot.val() !== null && snapshot.val() !== undefined) {
         console.log("opponent data", snapshot.val(), snapshot.key);
         setLocationId(snapshot.val().locationId);
-        fetchChat(snapshot.val().locationId);
+        fetchChat(snapshot.val().locationId, data?.uid);
         var chatlistpath = realtimedb.ref(
           "chatlist/" + uid + "/" + opponentUID
         );
@@ -108,7 +108,7 @@ const ChatScreen: React.FC = (props) => {
     });
   });
 
-  function fetchChat(data: string) {
+  function fetchChat(data: string, sentUid: any) {
     var userPath = realtimedb.ref("conversation/" + data);
     console.log("firebase user path", userPath);
     userPath.on("value", (snapshot) => {
@@ -135,9 +135,12 @@ const ChatScreen: React.FC = (props) => {
       let tempItem: any = items[items.length - 1];
       let tempkey: any = keys[keys.length - 1];
       let tempUid: any = tempItem.uid;
+      console.log("temp data", tempUid, uid, tempkey, data);
       if (firstTime) {
         setFirstTime(false);
-        if (tempUid === uid) {
+        if (tempUid === sentUid) {
+          console.log("own message");
+        } else {
           console.log("opponent message");
           var chatlistpath = realtimedb.ref(
             "conversation/" + data + "/" + tempkey
@@ -150,8 +153,6 @@ const ChatScreen: React.FC = (props) => {
               setMessage("");
             })
             .catch(function (e) {});
-        } else {
-          console.log("own message");
         }
       }
     });
@@ -275,7 +276,7 @@ const ChatScreen: React.FC = (props) => {
         })
         .catch(function (e) {});
       setFirstMsg(false);
-      fetchChat(locId);
+      fetchChat(locId, "null");
     }
   }
 
@@ -400,7 +401,7 @@ const ChatScreen: React.FC = (props) => {
                 {totalChat === i
                   ? isRead
                     ? object.uid === uid
-                      ? null
+                      ? "unseen"
                       : "Seen"
                     : null
                   : null}
