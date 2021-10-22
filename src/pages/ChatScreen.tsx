@@ -87,6 +87,17 @@ const ChatScreen: React.FC = (props) => {
         console.log("opponent data", snapshot.val(), snapshot.key);
         setLocationId(snapshot.val().locationId);
         fetchChat(snapshot.val().locationId);
+        var chatlistpath = realtimedb.ref(
+          "chatlist/" + uid + "/" + opponentUID
+        );
+        chatlistpath
+          .update({
+            lastSeen: false,
+          })
+          .then(() => {
+            setMessage("");
+          })
+          .catch(function (e) {});
       } else {
         setFirstMsg(true);
       }
@@ -152,11 +163,27 @@ const ChatScreen: React.FC = (props) => {
         .catch(function (e) {});
 
       //update recent message and timeStamp
-      var chatlistpath = realtimedb.ref("chatlist/" + uid + "/" + opponentUID);
-      chatlistpath
+      var chatlistpathself = realtimedb.ref(
+        "chatlist/" + uid + "/" + opponentUID
+      );
+      chatlistpathself
         .update({
-          recentMessage: message,
+          recentMessage: data === "text" ? message : "image uploaded",
           timeStamp: currDate,
+          lastSeen: false,
+        })
+        .then(() => {
+          setMessage("");
+        })
+        .catch(function (e) {});
+      var chatlistpathopponent = realtimedb.ref(
+        "chatlist/" + opponentUID + "/" + uid
+      );
+      chatlistpathopponent
+        .update({
+          recentMessage: data === "text" ? message : "image uploaded",
+          timeStamp: currDate,
+          lastSeen: true,
         })
         .then(() => {
           setMessage("");
@@ -179,24 +206,29 @@ const ChatScreen: React.FC = (props) => {
         })
         .catch(function (e) {});
       //generate data in chatlist self
-      var chatlistpath = realtimedb.ref("chatlist/" + uid + "/" + opponentUID);
-      chatlistpath
+      var chatlistpathself = realtimedb.ref(
+        "chatlist/" + uid + "/" + opponentUID
+      );
+      chatlistpathself
         .set({
           locationId: locId,
           profilePic: "",
           userName: "",
-          recentMessage: message,
+          recentMessage: data === "text" ? message : "image uploaded",
           email: userData?.email,
           uid: opponentUID,
           timeStamp: currDate,
+          lastSeen: false,
         })
         .then(() => {
           setMessage("");
         })
         .catch(function (e) {});
       //generate data in chatlist opponent
-      var chatlistpath = realtimedb.ref("chatlist/" + opponentUID + "/" + uid);
-      chatlistpath
+      var chatlistpathopponent = realtimedb.ref(
+        "chatlist/" + opponentUID + "/" + uid
+      );
+      chatlistpathopponent
         .set({
           locationId: locId,
           profilePic: "",

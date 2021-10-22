@@ -57,6 +57,7 @@ const Messages: React.FC = () => {
           email: data.email,
           locationId: data.locationId,
           uid: data.uid,
+          lastSeen: data.lastSeen,
         };
         items.push(jsonObject);
       });
@@ -127,7 +128,13 @@ const Messages: React.FC = () => {
                         </IonAvatar>
                         <IonLabel>
                           <h2>{object.email}</h2>
-                          <p>{object.recentMessage}</p>
+                          <p
+                            className={
+                              object.lastSeen ? "lastSeentrue" : "lastSeenfalse"
+                            }
+                          >
+                            {object.recentMessage}
+                          </p>
                         </IonLabel>
                         <IonNote slot="end">{object.timeStamp}</IonNote>
                       </IonItem>
@@ -173,7 +180,13 @@ const Messages: React.FC = () => {
                         </IonAvatar>
                         <IonLabel>
                           <h2>{object.email}</h2>
-                          <p>{object.recentMessage}</p>
+                          <p
+                            className={
+                              object.lastSeen ? "lastSeentrue" : "lastSeenfalse"
+                            }
+                          >
+                            {object.recentMessage}
+                          </p>
                         </IonLabel>
                         <IonNote slot="end">{object.timeStamp}</IonNote>
                       </IonItem>
