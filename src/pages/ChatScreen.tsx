@@ -23,13 +23,21 @@ import {
   IonRow,
   IonCol,
   IonTextarea,
+  IonThumbnail,
   CreateAnimation,
 } from "@ionic/react";
 import { addOutline, cameraOutline, send } from "ionicons/icons";
 import { auth, realtimedb, storageRef } from "../firebaseConfig";
 import "./ChatScreen.css";
-import { Plugins, CameraResultType } from "@capacitor/core";
-const { Camera } = Plugins;
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from "@capacitor/camera";
+import { Filesystem, Directory } from "@capacitor/filesystem";
+import { Storage } from "@capacitor/storage";
+import { Capacitor } from "@capacitor/core";
 
 const ChatScreen: React.FC = (props) => {
   const [uid, setUid] = useState<string>("");
@@ -99,6 +107,7 @@ const ChatScreen: React.FC = (props) => {
           uid: data.uid,
           text: data.text,
           timeStamp: data.timeStamp,
+          profilePic: data.profilePic,
         };
         items.push(jsonObject);
       });
@@ -124,16 +133,16 @@ const ChatScreen: React.FC = (props) => {
     toValue: "0%",
   };
 
-  function handlePrompt(data: string) {
+  function handlePrompt(data: string, msg: string) {
     var currDate: any = new Date().toLocaleString("en-IN");
+    console.log("send data", message, currDate, data, msg);
     if (!firstMsg) {
-      console.log("send data", message, currDate);
       //add message to firebase
       var userPath = realtimedb.ref("conversation/" + locationId);
       userPath
         .push({
-          msgType: "text",
-          text: message,
+          msgType: data,
+          text: data === "text" ? message : msg,
           uid: uid,
           timeStamp: currDate,
         })
@@ -160,8 +169,8 @@ const ChatScreen: React.FC = (props) => {
       var userPath = realtimedb.ref("conversation/" + locId);
       userPath
         .push({
-          msgType: "text",
-          text: message,
+          msgType: data,
+          text: data === "text" ? message : msg,
           uid: uid,
           timeStamp: currDate,
         })
@@ -218,18 +227,28 @@ const ChatScreen: React.FC = (props) => {
   }
 
   async function takePicture() {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Uri,
+    const cameraPhoto = await Camera.getPhoto({
+      resultType: CameraResultType.Base64,
+      // source: CameraSource.Camera,
+      webUseInput: true,
+      quality: 100,
     });
-    var imageUrl = image.webPath;
-    console.log("image path", image, imageUrl);
-    // storageRef.put
-    // Can be set to the src of an image now
-    // this.setState({
-    // photo: imageUrl
-    // })
+    var time: any = new Date();
+    let urlPath: any = cameraPhoto.base64String;
+    let mediaUpload = storageRef.child("media/" + "chatImage" + time);
+    console.log("take photo response", cameraPhoto);
+    mediaUpload
+      .putString(urlPath, "base64", {
+        contentType: "image/jpg",
+      })
+      .then((snapshot) => snapshot.ref.getDownloadURL())
+      .then((url) => {
+        setTimeout(() => {
+          console.log(url);
+          setMessage(url);
+          handlePrompt("image", url);
+        }, 500);
+      });
   }
 
   const sideButtonsAnimation = {
@@ -278,18 +297,40 @@ const ChatScreen: React.FC = (props) => {
       <IonList className="message-list">
         {chatList.map((object: any, i: any) => {
           return (
-            <IonCard
+            <IonRow
               className={
                 object.uid === uid ? "msgBubble-right" : "msgBubble-left"
               }
             >
-              <IonItem className="message-bubblesize">
-                <IonLabel>
-                  <p>{object.text}</p>
-                </IonLabel>
-                <IonNote slot="end">{object.timeStamp}</IonNote>
-              </IonItem>
-            </IonCard>
+              {object.uid !== uid && (
+                <IonAvatar className={"avator-style"}>
+                  <img
+                    src={
+                      object.profilePic !== null &&
+                      object.profilePic !== "" &&
+                      object.profilePic !== undefined
+                        ? object.profilePic
+                        : "/assets/editprofile.png"
+                    }
+                  />
+                </IonAvatar>
+              )}
+              <IonCard className={"card-style"}>
+                <IonItem>
+                  {object.msgType === "text" ? (
+                    <IonLabel>
+                      <p>{object.text}</p>
+                    </IonLabel>
+                  ) : (
+                    <IonThumbnail slot="start">
+                      <img src={object.text} />
+                    </IonThumbnail>
+                  )}
+
+                  <IonNote slot="end">{object.timeStamp}</IonNote>
+                </IonItem>
+              </IonCard>
+            </IonRow>
           );
         })}
       </IonList>
@@ -315,7 +356,7 @@ const ChatScreen: React.FC = (props) => {
             <IonCol
               size="1"
               className="chat-send-button"
-              onClick={() => handlePrompt("send button")}
+              onClick={() => handlePrompt("text", "null")}
             >
               <IonIcon icon={send} />
             </IonCol>

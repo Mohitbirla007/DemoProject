@@ -299,11 +299,23 @@
 .msgBubble-right {
   width: 70%;
   float: right;
+  justify-content: flex-end;
+  /* border-radius: 20px; */
 }
 .msgBubble-left {
   width: 70%;
-  float: left;
+  /* float: left; */
+  /* border-radius: 20px; */
 }
 .message-bubblesize {
   background-color: burlywood;
+}
+.card-style {
+  border-radius: 20px;
+}
+
+.avator-style {
+  margin-top: 10px;
+  width: 12%;
+  height: 12%;
 }

@@ -53,7 +53,7 @@ const Messages: React.FC = () => {
           userName: data.userName,
           recentMessage: data.recentMessage,
           timeStamp: data.timeStamp,
-          profilepic: data.profilePic,
+          profilePic: data.profilePic,
           email: data.email,
           locationId: data.locationId,
           uid: data.uid,
@@ -115,7 +115,15 @@ const Messages: React.FC = () => {
                     <IonItemSliding>
                       <IonItem lines="none">
                         <IonAvatar slot="start">
-                          <img src={object.profilepic} />
+                          <img
+                            src={
+                              object.profilePic !== null &&
+                              object.profilePic !== "" &&
+                              object.profilePic !== undefined
+                                ? object.profilePic
+                                : "/assets/editprofile.png"
+                            }
+                          />
                         </IonAvatar>
                         <IonLabel>
                           <h2>{object.email}</h2>
@@ -153,7 +161,15 @@ const Messages: React.FC = () => {
                     <IonItemSliding>
                       <IonItem lines="none">
                         <IonAvatar slot="start">
-                          <img src={object.profilepic} />
+                          <img
+                            src={
+                              object.profilePic !== null &&
+                              object.profilePic !== "" &&
+                              object.profilePic !== undefined
+                                ? object.profilePic
+                                : "/assets/editprofile.png"
+                            }
+                          />
                         </IonAvatar>
                         <IonLabel>
                           <h2>{object.email}</h2>
