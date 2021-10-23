@@ -36,9 +36,7 @@ import {
   CameraSource,
   Photo,
 } from "@capacitor/camera";
-import { Filesystem, Directory } from "@capacitor/filesystem";
-import { Storage } from "@capacitor/storage";
-import { Capacitor } from "@capacitor/core";
+import moment from "moment";
 
 const ChatScreen: React.FC = (props) => {
   var isRead = false;
@@ -180,7 +178,7 @@ const ChatScreen: React.FC = (props) => {
   };
 
   function handlePrompt(data: string, msg: string) {
-    var currDate: any = new Date().toLocaleString("en-IN");
+    var currDate: any = moment().format();
     console.log("send data", message, currDate, data, msg);
     if (!firstMsg) {
       //add message to firebase
@@ -410,7 +408,9 @@ const ChatScreen: React.FC = (props) => {
                     </IonThumbnail>
                   )}
 
-                  <IonNote slot="end">{object.timeStamp}</IonNote>
+                  <IonNote slot="end">
+                    {moment(object.timeStamp).format("DD/MM/YYYY h:mm a")}
+                  </IonNote>
                 </IonItem>
               </IonCard>
             </IonRow>
