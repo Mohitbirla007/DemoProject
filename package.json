@@ -3,7 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@capacitor/core": "2.4.6",
+    "@capacitor/camera": "^1.1.2",
+    "@capacitor/core": "^3.2.5",
+    "@capacitor/filesystem": "^1.0.5",
+    "@capacitor/storage": "^1.2.2",
+    "@ionic/pwa-elements": "^3.0.2",
     "@ionic/react": "^5.0.7",
     "@ionic/react-router": "^5.0.7",
     "@reduxjs/toolkit": "^1.6.0",
@@ -53,7 +57,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "2.4.6",
+    "@capacitor/cli": "^3.2.5",
     "@types/jquery": "^3.5.5"
   },
   "description": "An Ionic project"

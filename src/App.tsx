@@ -1,99 +1,108 @@
-import React, { useEffect } from 'react';
-import { Redirect, Route, useHistory } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Redirect, Route, useHistory } from "react-router-dom";
 import {
   IonApp,
   IonIcon,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
-  IonTabs
-} from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { homeOutline, walletOutline, chatboxOutline, personOutline, calendarOutline } from 'ionicons/icons';
-import Explore from './pages/Explore';
-import Search from './pages/Search';
-import Categories from './pages/Inactive/Categories';
-import Trending from './pages/Inactive/Trending';
-import Recommended from './pages/Inactive/Recommended';
-import Popular from './pages/Inactive/Popular';
-import Newest from './pages/Inactive/Newest';
-import Schedule from './pages/Schedule';
-import Bookings from './pages/Bookings';
-import Filter from './pages/Inactive/Filter';
-import Messages from './pages/Messages';
-import NewMessage from './pages/Inactive/NewMessage';
-import Profile from './pages/Profile';
-import EditProfile from './pages/EditProfile';
-import ViewProfile from './pages/ViewProfile';
-import Authentication from './pages/Inactive/Authentication';
-import Report from './pages/Report';
-import Services from './pages/Services';
-import Cover from './pages/Cover';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import RegisterDetails from './pages/RegisterDetails';
-import Verification from './pages/Inactive/Verification';
-import Forgotten from './pages/Forgotten';
-import ResetPassword from './pages/ResetPassword';
-import Tutorial from './pages/Tutorial';
-import Notifications from './pages/Notifications';
-import NotificationsSettings from './pages/NotificationsSettings';
-import BookingProcess from './pages/BookingProcess';
-import BookingSummary from './pages/BookingSummary';
-import ApprovalSummary from './pages/ApprovalSummary';
-import Conversation from './pages/Conversation'
-import Participants from './pages/Inactive/Participants'
-import AddParticipants from './pages/Inactive/AddParticipants'
-import Accounts from './pages/Inactive/Accounts';
-import RemoveAccount from './pages/RemoveAccount';
-import PaymentSummary from './pages/PaymentSummary';
-import Agreement from './pages/Agreement';
-import Payment from './pages/Payment';
-import Card from './pages/Card';
-import Team from './pages/Inactive/Team';
-import Reviews from './pages/Inactive/Reviews';
-import AddReview from './pages/Inactive/AddReview';
-import Settings from './pages/Settings';
-import NewService from './pages/NewService';
-import InviteFriends from './pages/Inactive/InviteFriends';
-import Membership from './pages/Inactive/Membership';
-import Availabilty from './pages/Availabilty';
-import Unavailabilty from './pages/Unavailabilty';
-import Splits from './pages/Inactive/Splits';
-import SplitPercentages from './pages/Inactive/SplitPercentages';
-import Security from './pages/Security';
-import Policies from './pages/Inactive/Policies';
-import Test from './pages/Inactive/Test'
-
-
-
+  IonTabs,
+} from "@ionic/react";
+import { IonReactRouter } from "@ionic/react-router";
+import {
+  homeOutline,
+  walletOutline,
+  chatboxOutline,
+  personOutline,
+  calendarOutline,
+} from "ionicons/icons";
+import Explore from "./pages/Explore";
+import Search from "./pages/Search";
+import Categories from "./pages/Inactive/Categories";
+import Trending from "./pages/Inactive/Trending";
+import Recommended from "./pages/Inactive/Recommended";
+import Popular from "./pages/Inactive/Popular";
+import Newest from "./pages/Inactive/Newest";
+import Schedule from "./pages/Schedule";
+import Bookings from "./pages/Bookings";
+import Filter from "./pages/Inactive/Filter";
+import Messages from "./pages/Messages";
+import NewMessage from "./pages/Inactive/NewMessage";
+import Profile from "./pages/Profile";
+import EditProfile from "./pages/EditProfile";
+import ViewProfile from "./pages/ViewProfile";
+import Authentication from "./pages/Inactive/Authentication";
+import Report from "./pages/Report";
+import Services from "./pages/Services";
+import Cover from "./pages/Cover";
+import Login from "./pages/Login";
+import ChatScreen from "./pages/ChatScreen";
+import ChatList from "./pages/ChatList";
+import Register from "./pages/Register";
+import RegisterDetails from "./pages/RegisterDetails";
+import Verification from "./pages/Inactive/Verification";
+import Forgotten from "./pages/Forgotten";
+import ResetPassword from "./pages/ResetPassword";
+import Tutorial from "./pages/Tutorial";
+import Notifications from "./pages/Notifications";
+import NotificationsSettings from "./pages/NotificationsSettings";
+import BookingProcess from "./pages/BookingProcess";
+import BookingSummary from "./pages/BookingSummary";
+import ApprovalSummary from "./pages/ApprovalSummary";
+import Conversation from "./pages/Conversation";
+import Participants from "./pages/Inactive/Participants";
+import AddParticipants from "./pages/Inactive/AddParticipants";
+import Accounts from "./pages/Inactive/Accounts";
+import RemoveAccount from "./pages/RemoveAccount";
+import PaymentSummary from "./pages/PaymentSummary";
+import Agreement from "./pages/Agreement";
+import Payment from "./pages/Payment";
+import Card from "./pages/Card";
+import Team from "./pages/Inactive/Team";
+import Reviews from "./pages/Inactive/Reviews";
+import AddReview from "./pages/Inactive/AddReview";
+import Settings from "./pages/Settings";
+import NewService from "./pages/NewService";
+import InviteFriends from "./pages/Inactive/InviteFriends";
+import Membership from "./pages/Inactive/Membership";
+import Availabilty from "./pages/Availabilty";
+import Unavailabilty from "./pages/Unavailabilty";
+import Splits from "./pages/Inactive/Splits";
+import SplitPercentages from "./pages/Inactive/SplitPercentages";
+import Security from "./pages/Security";
+import Policies from "./pages/Inactive/Policies";
+import Test from "./pages/Inactive/Test";
 
 /* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
+import "@ionic/react/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
+import "@ionic/react/css/normalize.css";
+import "@ionic/react/css/structure.css";
+import "@ionic/react/css/typography.css";
 
 /* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
+import "@ionic/react/css/padding.css";
+import "@ionic/react/css/float-elements.css";
+import "@ionic/react/css/text-alignment.css";
+import "@ionic/react/css/text-transformation.css";
+import "@ionic/react/css/flex-utils.css";
+import "@ionic/react/css/display.css";
 
 /* Theme variables */
-import './theme/variables.css';
+import "./theme/variables.css";
 
 /* FIREBASE */
-import { auth } from './firebaseConfig';
+import { auth } from "./firebaseConfig";
 
 // REACT REDUX
-import { useDispatch, useSelector } from 'react-redux';
-import { login, logout, selectToken, selectUser } from './reducer/User/userSlice';
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  login,
+  logout,
+  selectToken,
+  selectUser,
+} from "./reducer/User/userSlice";
 
 const App: React.FC = () => {
   const user = useSelector(selectUser); // REDUX USER-REDUCER SELECTOR
@@ -102,21 +111,22 @@ const App: React.FC = () => {
   const dispatchToken = useDispatch(); // REDUX DISPATCHTOKEN
   const history = useHistory(); // REDUX DISPATCHTOKEN
 
-
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        dispatchUser(login({
-          uid: authUser.uid,
-          photo: authUser.photoURL,
-          email: authUser.email,
-          displayName: authUser.displayName
-        }))
+        dispatchUser(
+          login({
+            uid: authUser.uid,
+            photo: authUser.photoURL,
+            email: authUser.email,
+            displayName: authUser.displayName,
+          })
+        );
       } else {
         dispatchUser(logout());
       }
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <IonApp>
@@ -139,7 +149,11 @@ const App: React.FC = () => {
             <Route path="/viewprofile/:id" component={ViewProfile} />
             <Route path="/authentication" component={Authentication} />
             <Route path="/report" component={Report} />
-            <Route path="/" render={() => <Redirect to="/cover" />} exact={true} />
+            <Route
+              path="/"
+              render={() => <Redirect to="/cover" />}
+              exact={true}
+            />
             <Route path="/cover" component={Cover} exact />
             <Route path="/login" component={Login} exact />
             <Route path="/register" component={Register} exact />
@@ -148,7 +162,11 @@ const App: React.FC = () => {
             <Route path="/resetpassword" component={ResetPassword} exact />
             <Route path="/tutorial" component={Tutorial} exact />
             <Route path="/notifications" component={Notifications} exact />
-            <Route path="/notificationssettings" component={NotificationsSettings} exact />
+            <Route
+              path="/notificationssettings"
+              component={NotificationsSettings}
+              exact
+            />
             <Route path="/categories" component={Categories} exact={true} />
             <Route path="/services" component={Services} />
             <Route path="/bookingprocess" component={BookingProcess} exact />
@@ -172,14 +190,20 @@ const App: React.FC = () => {
             <Route path="/availabilty" component={Availabilty} exact />
             <Route path="/unavailabilty" component={Unavailabilty} exact />
             <Route path="/splits" component={Splits} exact />
-            <Route path="/splitpercentages" component={SplitPercentages} exact />
+            <Route
+              path="/splitpercentages"
+              component={SplitPercentages}
+              exact
+            />
             <Route path="/security" component={Security} exact />
             <Route path="/policies" component={Policies} exact />
             <Route path="/test" component={Test} exact />
             <Route path="/NewService" component={NewService} exact />
+            <Route path="/ChatScreen" component={ChatScreen} exact />
+            <Route path="/ChatList" component={ChatList} exact />
             <Route path="/registerdetails" component={RegisterDetails} exact />
           </IonRouterOutlet>
-          <IonTabBar style={{display:user?"flex":"none"}} slot="bottom">
+          <IonTabBar style={{ display: user ? "flex" : "none" }} slot="bottom">
             <IonTabButton tab="explore" href="/explore">
               <IonIcon icon={homeOutline} />
             </IonTabButton>
@@ -199,8 +223,7 @@ const App: React.FC = () => {
         </IonTabs>
       </IonReactRouter>
     </IonApp>
-  )
-
+  );
 };
 
 export default App;
