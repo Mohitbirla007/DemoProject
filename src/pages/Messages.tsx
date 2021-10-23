@@ -24,6 +24,7 @@ import {
   IonIcon,
   useIonViewDidEnter,
   IonDatetime,
+  IonLoading,
 } from "@ionic/react";
 import { addOutline, pencil, personCircle } from "ionicons/icons";
 import db, { auth, realtimedb } from "../firebaseConfig";
@@ -35,12 +36,13 @@ const Messages: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [chatList, setChatList] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>(null);
+  const [busy, setBusy] = useState<boolean>(false);
   let history = useHistory();
   useIonViewDidEnter(async () => {
     var data = await auth.currentUser;
     // var uid = data?.uid
     console.log("ionViewDidEnter event fired", data);
-
+    setBusy(true);
     var userPath = realtimedb.ref("chatlist/" + data?.uid);
     userPath.on("value", (snapshot) => {
       let items: string[] = [];
@@ -63,6 +65,7 @@ const Messages: React.FC = () => {
       });
       items.sort((a: any, b: any) => (a.timeStamp > b.timeStamp ? -1 : 1));
       setChatList(items);
+      setBusy(false);
       console.log("item data", items);
     });
   });
@@ -83,6 +86,7 @@ const Messages: React.FC = () => {
 
   return (
     <IonPage>
+      <IonLoading message="Please wait..." duration={0} isOpen={busy} />
       <IonHeader>
         <IonToolbar>
           <IonTitle className="title">Messages</IonTitle>

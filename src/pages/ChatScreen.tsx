@@ -25,6 +25,7 @@ import {
   IonTextarea,
   IonThumbnail,
   CreateAnimation,
+  IonLoading,
 } from "@ionic/react";
 import { addOutline, cameraOutline, send } from "ionicons/icons";
 import { auth, realtimedb, storageRef } from "../firebaseConfig";
@@ -56,6 +57,7 @@ const ChatScreen: React.FC = (props) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [firstMsg, setFirstMsg] = useState<any>(false);
+  const [busy, setBusy] = useState<boolean>(false);
   const [firstTime, setFirstTime] = useState<any>(true);
   const [propData, setPropData] = useState<any>(props);
   // console.log("props data", props);
@@ -75,6 +77,7 @@ const ChatScreen: React.FC = (props) => {
 
   useIonViewDidEnter(async () => {
     // setFirstTime(true);
+    setBusy(true);
     var data = await auth.currentUser;
     var uid = data?.uid;
     var email = data?.email;
@@ -105,6 +108,7 @@ const ChatScreen: React.FC = (props) => {
       } else {
         setFirstMsg(true);
       }
+      setBusy(false);
     });
   });
 
@@ -147,7 +151,7 @@ const ChatScreen: React.FC = (props) => {
           );
           chatlistpath
             .update({
-              lastSeen: true,
+              isRead: true,
             })
             .then(() => {
               setMessage("");
@@ -302,6 +306,7 @@ const ChatScreen: React.FC = (props) => {
     let urlPath: any = cameraPhoto.base64String;
     let mediaUpload = storageRef.child("media/" + "chatImage" + time);
     console.log("take photo response", cameraPhoto);
+    setBusy(true);
     mediaUpload
       .putString(urlPath, "base64", {
         contentType: "image/jpg",
@@ -312,6 +317,7 @@ const ChatScreen: React.FC = (props) => {
           console.log(url);
           setMessage(url);
           handlePrompt("image", url);
+          setBusy(false);
         }, 500);
       });
   }
@@ -342,6 +348,7 @@ const ChatScreen: React.FC = (props) => {
 
   return (
     <IonPage className="chat-page">
+      <IonLoading message="Please wait..." duration={0} isOpen={busy} />
       <IonHeader>
         <IonToolbar>
           <IonButton slot="start">
@@ -382,6 +389,15 @@ const ChatScreen: React.FC = (props) => {
                   />
                 </IonAvatar>
               )}
+              <IonNote className={"seen-style"}>
+                {totalChat === i
+                  ? isRead
+                    ? object.uid === uid
+                      ? "unseen"
+                      : "Seen"
+                    : null
+                  : null}
+              </IonNote>
               <IonCard className={"card-style"}>
                 <IonItem>
                   {object.msgType === "text" ? (
@@ -397,15 +413,6 @@ const ChatScreen: React.FC = (props) => {
                   <IonNote slot="end">{object.timeStamp}</IonNote>
                 </IonItem>
               </IonCard>
-              <IonNote className={"seen-style"}>
-                {totalChat === i
-                  ? isRead
-                    ? object.uid === uid
-                      ? "unseen"
-                      : "Seen"
-                    : null
-                  : null}
-              </IonNote>
             </IonRow>
           );
         })}

@@ -24,6 +24,7 @@ import {
   IonIcon,
   useIonViewDidEnter,
   IonBackButton,
+  IonLoading,
 } from "@ionic/react";
 import { addOutline, pencil, personCircle } from "ionicons/icons";
 import db, { auth, realtimedb } from "../firebaseConfig";
@@ -35,12 +36,13 @@ const ChatList: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [userList, setUserList] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>(null);
+  const [busy, setBusy] = useState<boolean>(false);
   let history = useHistory();
   useIonViewDidEnter(async () => {
     // var data = await auth.currentUser;
     // var uid = data?.uid
     // console.log("ionViewDidEnter event fired", data);
-
+    setBusy(true);
     var userPath = realtimedb.ref("user");
     userPath.once("value", (snapshot) => {
       let items: string[] = [];
@@ -58,6 +60,7 @@ const ChatList: React.FC = () => {
       });
       setUserList(items);
       console.log("item data", items);
+      setBusy(false);
     });
   });
 
@@ -81,6 +84,7 @@ const ChatList: React.FC = () => {
 
   return (
     <IonPage>
+      <IonLoading message="Please wait..." duration={0} isOpen={busy} />
       <IonHeader>
         <IonToolbar>
           <IonButton slot="start">
@@ -113,7 +117,15 @@ const ChatList: React.FC = () => {
                   >
                     <IonItem lines="none">
                       <IonAvatar slot="start">
-                        <img src={object.profilepic} />
+                        <img
+                          src={
+                            object.profilePic !== null &&
+                            object.profilePic !== "" &&
+                            object.profilePic !== undefined
+                              ? object.profilePic
+                              : "/assets/editprofile.png"
+                          }
+                        />
                       </IonAvatar>
                       <IonLabel>
                         <h2>{object.email}</h2>
@@ -135,7 +147,15 @@ const ChatList: React.FC = () => {
                   >
                     <IonItem lines="none">
                       <IonAvatar slot="start">
-                        <img src={object.profilepic} />
+                        <img
+                          src={
+                            object.profilePic !== null &&
+                            object.profilePic !== "" &&
+                            object.profilePic !== undefined
+                              ? object.profilePic
+                              : "/assets/editprofile.png"
+                          }
+                        />
                       </IonAvatar>
                       <IonLabel>
                         <h2>{object.email}</h2>
