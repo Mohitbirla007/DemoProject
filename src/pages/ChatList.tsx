@@ -39,8 +39,8 @@ const ChatList: React.FC = () => {
   const [busy, setBusy] = useState<boolean>(false);
   let history = useHistory();
   useIonViewDidEnter(async () => {
-    // var data = await auth.currentUser;
-    // var uid = data?.uid
+    var data = await auth.currentUser;
+    var uid = data?.uid;
     // console.log("ionViewDidEnter event fired", data);
     setBusy(true);
     var userPath = realtimedb.ref("user");
@@ -56,7 +56,9 @@ const ChatList: React.FC = () => {
           profilepic: data.profilePic,
           uid: data.uid,
         };
-        items.push(jsonObject);
+        if (uid !== data.uid) {
+          items.push(jsonObject);
+        }
       });
       setUserList(items);
       console.log("item data", items);
