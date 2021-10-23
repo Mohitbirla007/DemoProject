@@ -31,6 +31,7 @@ import db, { auth, realtimedb } from "../firebaseConfig";
 import "./Messages.css";
 import { iteratorSymbol } from "@reduxjs/toolkit/node_modules/immer/dist/internal";
 import { useHistory } from "react-router";
+import moment from "moment";
 
 const Messages: React.FC = () => {
   const [searchText, setSearchText] = useState("");
@@ -63,10 +64,11 @@ const Messages: React.FC = () => {
         };
         items.push(jsonObject);
       });
+      console.log("item data before sort", items);
       items.sort((a: any, b: any) => (a.timeStamp > b.timeStamp ? -1 : 1));
       setChatList(items);
       setBusy(false);
-      console.log("item data", items);
+      console.log("item data after sort", items);
     });
   });
 
@@ -140,7 +142,9 @@ const Messages: React.FC = () => {
                             {object.recentMessage}
                           </p>
                         </IonLabel>
-                        <IonNote slot="end">{object.timeStamp}</IonNote>
+                        <IonNote slot="end">
+                          {moment(object.timeStamp).format("DD/MM/YYYY h:mm a")}
+                        </IonNote>
                       </IonItem>
                       <IonItemOptions side="end">
                         <IonItemOption color="danger" onClick={() => {}}>
@@ -192,7 +196,9 @@ const Messages: React.FC = () => {
                             {object.recentMessage}
                           </p>
                         </IonLabel>
-                        <IonNote slot="end">{object.timeStamp}</IonNote>
+                        <IonNote slot="end">
+                          {moment(object.timeStamp).format("DD/MM/YYYY h:mm a")}
+                        </IonNote>
                       </IonItem>
                       <IonItemOptions side="end">
                         <IonItemOption color="danger" onClick={() => {}}>
