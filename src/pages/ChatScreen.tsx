@@ -79,10 +79,10 @@ const ChatScreen: React.FC = (props) => {
     // setFirstTime(true);
     setBusy(true);
     var data = await auth.currentUser;
-    var uid = data?.uid;
-    var email = data?.email;
-    setUid(uid!);
-    setEmail(email!);
+    var uid: any = data?.uid;
+    var email: any = data?.email;
+    setUid(uid);
+    setEmail(email);
     console.log("ionViewDidEnter event fired", data?.uid, opponentUID);
     //fetching opponent message location id
     var locationIdPath = realtimedb.ref(
@@ -114,7 +114,7 @@ const ChatScreen: React.FC = (props) => {
 
   function fetchChat(data: string, sentUid: any) {
     var userPath = realtimedb.ref("conversation/" + data);
-    console.log("firebase user path", userPath);
+    console.log("firebase user path", userPath, uid);
     userPath.on("value", (snapshot) => {
       let items: string[] = [];
       let keys: any[] = [];
@@ -393,8 +393,8 @@ const ChatScreen: React.FC = (props) => {
                 {totalChat === i
                   ? isRead
                     ? object.uid === uid
-                      ? "unseen"
-                      : "Seen"
+                      ? "Seen"
+                      : null
                     : null
                   : null}
               </IonNote>
