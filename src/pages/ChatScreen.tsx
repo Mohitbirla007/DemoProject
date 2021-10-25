@@ -65,6 +65,7 @@ const ChatScreen: React.FC = (props) => {
   );
   const [locationId, setLocationId] = useState<any>(userData?.locationId);
   const [opponentUID, setOpponentUID] = useState<any>(userData?.uid);
+  const [opponentProfilePic, setOpponentProfilePic] = useState<any>(userData?.profilePic);
   //  Refs
   // const contentRef = useRef<HTMLDivElement>();
   // const swiperRefs = useRef<HTMLDivElement>([]);
@@ -102,7 +103,7 @@ const ChatScreen: React.FC = (props) => {
           .then(() => {
             setMessage("");
           })
-          .catch(function (e) {});
+          .catch(function (e) { });
       } else {
         setFirstMsg(true);
       }
@@ -154,7 +155,7 @@ const ChatScreen: React.FC = (props) => {
             .then(() => {
               setMessage("");
             })
-            .catch(function (e) {});
+            .catch(function (e) { });
         }
       }
     });
@@ -194,7 +195,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) {});
+        .catch(function (e) { });
 
       //update recent message and timeStamp
       var chatlistpathself = realtimedb.ref(
@@ -209,7 +210,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) {});
+        .catch(function (e) { });
       var chatlistpathopponent = realtimedb.ref(
         "chatlist/" + opponentUID + "/" + uid
       );
@@ -222,7 +223,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) {});
+        .catch(function (e) { });
     } else {
       var locId = makeid(20);
       setLocationId(locId);
@@ -239,7 +240,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) {});
+        .catch(function (e) { });
       //generate data in chatlist self
       var chatlistpathself = realtimedb.ref(
         "chatlist/" + uid + "/" + opponentUID
@@ -258,7 +259,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) {});
+        .catch(function (e) { });
       //generate data in chatlist opponent
       var chatlistpathopponent = realtimedb.ref(
         "chatlist/" + opponentUID + "/" + uid
@@ -276,7 +277,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) {});
+        .catch(function (e) { });
       setFirstMsg(false);
       fetchChat(locId, "null");
     }
@@ -378,10 +379,10 @@ const ChatScreen: React.FC = (props) => {
                 <IonAvatar className={"avator-style"}>
                   <img
                     src={
-                      object.profilePic !== null &&
-                      object.profilePic !== "" &&
-                      object.profilePic !== undefined
-                        ? object.profilePic
+                      opponentProfilePic !== null &&
+                        opponentProfilePic !== "" &&
+                        opponentProfilePic !== undefined
+                        ? opponentProfilePic
                         : "/assets/editprofile.png"
                     }
                   />
