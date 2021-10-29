@@ -65,7 +65,9 @@ const ChatScreen: React.FC = (props) => {
   );
   const [locationId, setLocationId] = useState<any>(userData?.locationId);
   const [opponentUID, setOpponentUID] = useState<any>(userData?.uid);
-  const [opponentProfilePic, setOpponentProfilePic] = useState<any>(userData?.profilePic);
+  const [opponentProfilePic, setOpponentProfilePic] = useState<any>(
+    userData?.profilePic
+  );
   //  Refs
   // const contentRef = useRef<HTMLDivElement>();
   // const swiperRefs = useRef<HTMLDivElement>([]);
@@ -103,7 +105,7 @@ const ChatScreen: React.FC = (props) => {
           .then(() => {
             setMessage("");
           })
-          .catch(function (e) { });
+          .catch(function (e) {});
       } else {
         setFirstMsg(true);
       }
@@ -155,7 +157,7 @@ const ChatScreen: React.FC = (props) => {
             .then(() => {
               setMessage("");
             })
-            .catch(function (e) { });
+            .catch(function (e) {});
         }
       }
     });
@@ -195,7 +197,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) { });
+        .catch(function (e) {});
 
       //update recent message and timeStamp
       var chatlistpathself = realtimedb.ref(
@@ -210,7 +212,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) { });
+        .catch(function (e) {});
       var chatlistpathopponent = realtimedb.ref(
         "chatlist/" + opponentUID + "/" + uid
       );
@@ -223,7 +225,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) { });
+        .catch(function (e) {});
     } else {
       var locId = makeid(20);
       setLocationId(locId);
@@ -240,7 +242,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) { });
+        .catch(function (e) {});
       //generate data in chatlist self
       var chatlistpathself = realtimedb.ref(
         "chatlist/" + uid + "/" + opponentUID
@@ -259,7 +261,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) { });
+        .catch(function (e) {});
       //generate data in chatlist opponent
       var chatlistpathopponent = realtimedb.ref(
         "chatlist/" + opponentUID + "/" + uid
@@ -277,7 +279,7 @@ const ChatScreen: React.FC = (props) => {
         .then(() => {
           setMessage("");
         })
-        .catch(function (e) { });
+        .catch(function (e) {});
       setFirstMsg(false);
       fetchChat(locId, "null");
     }
@@ -350,18 +352,34 @@ const ChatScreen: React.FC = (props) => {
       <IonLoading message="Please wait..." duration={0} isOpen={busy} />
       <IonHeader>
         <IonToolbar>
-          <IonButton slot="start">
+          <IonButton slot="start" fill="clear">
             <IonBackButton />
           </IonButton>
-          <IonTitle>
+          <IonAvatar className="cimage" slot="start">
+            <img
+              src={
+                opponentProfilePic !== null &&
+                opponentProfilePic !== "" &&
+                opponentProfilePic !== undefined
+                  ? opponentProfilePic
+                  : "/assets/editprofile.png"
+              }
+            />
+          </IonAvatar>
+          <IonList>
+            <IonLabel className="title" slot="start">
+              {userData?.email}
+            </IonLabel>
+            {/* <div></div>
+            <IonLabel className="title">Music Artist</IonLabel> */}
+          </IonList>
+          {/* <IonTitle>
             <div className="chat-contact">
-              {/* <img src={contact.avatar} alt="avatar" /> */}
               <div className="chat-contact-details">
                 <p>{userData?.email}</p>
-                {/* <IonText color="medium">last seen today at 22:10</IonText> */}
               </div>
             </div>
-          </IonTitle>
+          </IonTitle> */}
         </IonToolbar>
       </IonHeader>
 
@@ -380,8 +398,8 @@ const ChatScreen: React.FC = (props) => {
                   <img
                     src={
                       opponentProfilePic !== null &&
-                        opponentProfilePic !== "" &&
-                        opponentProfilePic !== undefined
+                      opponentProfilePic !== "" &&
+                      opponentProfilePic !== undefined
                         ? opponentProfilePic
                         : "/assets/editprofile.png"
                     }

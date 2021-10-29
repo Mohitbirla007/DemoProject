@@ -10,6 +10,9 @@
   margin: auto;
   display: block;
 }
+.title {
+  margin-left: 6%;
+}
 
 .email {
   text-align: center;
@@ -34,6 +37,11 @@
 .chat-page ion-header,
 .chat-page ion-toolbar {
   --min-height: 3.5rem;
+}
+
+.cimage {
+  width: 45px;
+  height: 45px;
 }
 
 .chat-page ion-title {

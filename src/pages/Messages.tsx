@@ -25,6 +25,7 @@ import {
   useIonViewDidEnter,
   IonDatetime,
   IonLoading,
+  IonAlert,
 } from "@ionic/react";
 import { addOutline, pencil, personCircle } from "ionicons/icons";
 import db, { auth, realtimedb } from "../firebaseConfig";
@@ -34,6 +35,7 @@ import { useHistory } from "react-router";
 import moment from "moment";
 
 const Messages: React.FC = () => {
+  const [showAlert1, setShowAlert1] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [chatList, setChatList] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>(null);
@@ -92,7 +94,12 @@ const Messages: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle className="title">Messages</IonTitle>
-          <IonButton slot="secondary" color="ioncolor" routerLink="/ChatList">
+          <IonButton
+            slot="secondary"
+            color="ioncolor"
+            onClick={() => setShowAlert1(true)}
+            // routerLink="/ChatList"
+          >
             <IonIcon icon={pencil} color="danger" />
           </IonButton>
         </IonToolbar>
@@ -218,6 +225,31 @@ const Messages: React.FC = () => {
               })}
         </IonList>
       </IonContent>
+      <IonAlert
+        isOpen={showAlert1}
+        onDidDismiss={() => setShowAlert1(false)}
+        cssClass="my-custom-class"
+        header={"Start New Chat"}
+        buttons={[
+          {
+            text: "Create 1-2-1 chat",
+            handler: () => {
+              console.log("Create 1-2-1 chat");
+              history.push({
+                pathname: "/ChatList",
+              });
+            },
+          },
+          {
+            text: "Create Group chat",
+            handler: () => {
+              history.push({
+                pathname: "/AddParticipants",
+              });
+            },
+          },
+        ]}
+      />
     </IonPage>
   );
 };

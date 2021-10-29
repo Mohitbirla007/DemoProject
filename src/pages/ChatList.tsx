@@ -26,10 +26,8 @@ import {
   IonBackButton,
   IonLoading,
 } from "@ionic/react";
-import { addOutline, pencil, personCircle } from "ionicons/icons";
 import db, { auth, realtimedb } from "../firebaseConfig";
 import "./ChatList.css";
-import { iteratorSymbol } from "@reduxjs/toolkit/node_modules/immer/dist/internal";
 import { useHistory } from "react-router";
 
 const ChatList: React.FC = () => {
@@ -89,7 +87,7 @@ const ChatList: React.FC = () => {
       <IonLoading message="Please wait..." duration={0} isOpen={busy} />
       <IonHeader>
         <IonToolbar>
-          <IonButton slot="start">
+          <IonButton slot="start" fill="clear">
             <IonBackButton />
           </IonButton>
           <IonTitle className="title">Users List</IonTitle>
