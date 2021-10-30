@@ -137,6 +137,8 @@ const Messages: React.FC = () => {
                               object.profilePic !== "" &&
                               object.profilePic !== undefined
                                 ? object.profilePic
+                                : object.isGroup
+                                ? "/assets/group_icon.png"
                                 : "/assets/editprofile.png"
                             }
                           />
@@ -193,6 +195,8 @@ const Messages: React.FC = () => {
                               object.profilePic !== "" &&
                               object.profilePic !== undefined
                                 ? object.profilePic
+                                : object.isGroup
+                                ? "/assets/group_icon.png"
                                 : "/assets/editprofile.png"
                             }
                           />

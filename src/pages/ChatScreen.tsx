@@ -26,8 +26,15 @@ import {
   IonThumbnail,
   CreateAnimation,
   IonLoading,
+  IonAlert,
 } from "@ionic/react";
-import { addOutline, cameraOutline, send } from "ionicons/icons";
+import {
+  addOutline,
+  cameraOutline,
+  pencil,
+  send,
+  ellipsisVertical,
+} from "ionicons/icons";
 import { auth, realtimedb, storageRef } from "../firebaseConfig";
 import "./ChatScreen.css";
 import {
@@ -36,6 +43,7 @@ import {
   CameraSource,
   Photo,
 } from "@capacitor/camera";
+import { useHistory } from "react-router";
 import moment from "moment";
 
 const ChatScreen: React.FC = (props) => {
@@ -48,10 +56,10 @@ const ChatScreen: React.FC = (props) => {
   const [totalChat, setTotalChat] = useState<any>(0);
   const [replyToMessage, setReplyToMessage] = useState(false);
   const [messageSent, setMessageSent] = useState(false);
-
+  const [showAlert1, setShowAlert1] = useState(false);
   const [showActionSheet, setShowActionSheet] = useState(false);
   const [actionMessage, setActionMessage] = useState(false);
-
+  let history = useHistory();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [firstMsg, setFirstMsg] = useState<any>(false);
@@ -134,30 +142,32 @@ const ChatScreen: React.FC = (props) => {
         items.push(jsonObject);
         keys.push(key);
       });
-      setChatList(items);
-      setTotalChat(items.length - 1);
-      console.log("item data", items, items.length, keys);
-      let tempItem: any = items[items.length - 1];
-      let tempkey: any = keys[keys.length - 1];
-      let tempUid: any = tempItem.uid;
-      console.log("temp data", tempUid, uid, tempkey, data);
-      if (firstTime) {
-        setFirstTime(false);
-        if (tempUid === sentUid) {
-          console.log("own message");
-        } else {
-          console.log("opponent message");
-          var chatlistpath = realtimedb.ref(
-            "conversation/" + data + "/" + tempkey
-          );
-          chatlistpath
-            .update({
-              isRead: true,
-            })
-            .then(() => {
-              setMessage("");
-            })
-            .catch(function (e) {});
+      if (items !== null && items !== undefined) {
+        setChatList(items);
+        setTotalChat(items.length - 1);
+        console.log("item data", items, items.length, keys);
+        let tempItem: any = items[items.length - 1];
+        let tempkey: any = keys[keys.length - 1];
+        let tempUid: any = tempItem.uid;
+        // console.log("temp data", tempUid, uid, tempkey, data);
+        if (firstTime) {
+          setFirstTime(false);
+          if (tempUid === sentUid) {
+            console.log("own message");
+          } else {
+            console.log("opponent message");
+            var chatlistpath = realtimedb.ref(
+              "conversation/" + data + "/" + tempkey
+            );
+            chatlistpath
+              .update({
+                isRead: true,
+              })
+              .then(() => {
+                setMessage("");
+              })
+              .catch(function (e) {});
+          }
         }
       }
     });
@@ -347,6 +357,26 @@ const ChatScreen: React.FC = (props) => {
     easing: "ease-in-out",
   };
 
+  function deleteConversation() {
+    setBusy(true);
+    console.log("Yes");
+    var userPath = realtimedb.ref("conversation/" + locationId);
+    userPath.off();
+    var deleteOppoentData = realtimedb.ref(
+      "chatlist/" + opponentUID + "/" + uid
+    );
+    deleteOppoentData.remove();
+    var deleteSelfData = realtimedb.ref("chatlist/" + uid + "/" + opponentUID);
+    deleteSelfData.remove();
+    var deleteConversationPath = realtimedb.ref("conversation/" + locationId);
+    deleteConversationPath.remove();
+    console.log("SUccessfully removed");
+    setBusy(false);
+    history.push({
+      pathname: "/Messages",
+    });
+  }
+
   return (
     <IonPage className="chat-page">
       <IonLoading message="Please wait..." duration={0} isOpen={busy} />
@@ -373,13 +403,13 @@ const ChatScreen: React.FC = (props) => {
             {/* <div></div>
             <IonLabel className="title">Music Artist</IonLabel> */}
           </IonList>
-          {/* <IonTitle>
-            <div className="chat-contact">
-              <div className="chat-contact-details">
-                <p>{userData?.email}</p>
-              </div>
-            </div>
-          </IonTitle> */}
+          <IonButton
+            slot="secondary"
+            color="ioncolor"
+            onClick={() => setShowAlert1(true)}
+          >
+            <IonIcon icon={ellipsisVertical} color="danger" />
+          </IonButton>
         </IonToolbar>
       </IonHeader>
 
@@ -465,6 +495,26 @@ const ChatScreen: React.FC = (props) => {
           </IonRow>
         </IonGrid>
       </IonFooter>
+      <IonAlert
+        isOpen={showAlert1}
+        onDidDismiss={() => setShowAlert1(false)}
+        cssClass="my-custom-class"
+        header={"Are you sure you want to End Conversation"}
+        buttons={[
+          {
+            text: "No",
+            handler: () => {
+              console.log("no");
+            },
+          },
+          {
+            text: "Yes",
+            handler: () => {
+              deleteConversation();
+            },
+          },
+        ]}
+      />
     </IonPage>
   );
 };
