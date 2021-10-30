@@ -34,6 +34,7 @@ import {
   pencil,
   send,
   ellipsisVertical,
+  people,
 } from "ionicons/icons";
 import { auth, realtimedb, storageRef } from "../firebaseConfig";
 import "./ChatScreen.css";
@@ -420,9 +421,13 @@ const GroupChatScreen: React.FC = (props) => {
           <IonButton
             slot="secondary"
             color="ioncolor"
-            onClick={() => setShowAlert1(true)}
+            onClick={() => {
+              history.push({
+                pathname: "/Participants",
+              });
+            }}
           >
-            <IonIcon icon={ellipsisVertical} color="danger" />
+            <IonIcon icon={people} color="danger" />
           </IonButton>
         </IonToolbar>
       </IonHeader>
