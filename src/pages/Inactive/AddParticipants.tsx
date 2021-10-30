@@ -21,18 +21,22 @@ import {
 import "./AddParticipants.css";
 import db, { auth, realtimedb } from "../../firebaseConfig";
 import { useHistory } from "react-router";
+import moment from "moment";
 
 const AddParticipants: React.FC = () => {
+  const [uid, setUid] = useState<string>("");
   const [searchText, setSearchText] = useState("");
   const [selected, setSelected] = useState("");
   const [userList, setUserList] = useState<any>([]);
+  const [addeduserList, setAddedUserList] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>(null);
   const [busy, setBusy] = useState<boolean>(false);
   let history = useHistory();
 
   useIonViewDidEnter(async () => {
     var data = await auth.currentUser;
-    var uid = data?.uid;
+    var uid: any = data?.uid;
+    setUid(uid);
     // console.log("ionViewDidEnter event fired", data);
     setBusy(true);
     var userPath = realtimedb.ref("user");
@@ -76,8 +80,78 @@ const AddParticipants: React.FC = () => {
     }
   }
 
+  function makeid(length: number) {
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
   function selectedUsers(data1: string, data2: string) {
-    console.log("radio data", data1, data2);
+    let temp: any = addeduserList;
+    temp.push(data2);
+    setAddedUserList(temp);
+    console.log("radio data", data1, data2, temp, addeduserList);
+  }
+
+  function createGroup() {
+    // console.log("create db on firebase", addeduserList);
+    var currDate: any = moment().format();
+    setBusy(true);
+    var groupId = makeid(28);
+    var locId = makeid(28);
+    var chatlistpathself = realtimedb.ref("chatlist/" + uid + "/" + groupId);
+    chatlistpathself
+      .set({
+        locationId: locId,
+        profilePic: "",
+        groupName: "test dummy",
+        recentMessage: "test recent message",
+        timeStamp: currDate,
+        uid: groupId,
+        isGroup: true,
+        // userList: addeduserList,
+      })
+      .then(() => {})
+      .catch(function (e) {});
+    addeduserList.forEach((element: any) => {
+      console.log("users added", element.uid);
+      var chatlistpathopponent = realtimedb.ref(
+        "chatlist/" + element.uid + "/" + groupId
+      );
+      chatlistpathopponent
+        .set({
+          locationId: locId,
+          profilePic: "",
+          groupName: "test dummy",
+          recentMessage: "",
+          timeStamp: currDate,
+          uid: groupId,
+          isGroup: true,
+          // userList: addeduserList,
+        })
+        .then(() => {})
+        .catch(function (e) {});
+    });
+    // var locId = makeid(28);
+    // var groupChatpath = realtimedb.ref("groupChat/" + groupId);
+    // groupChatpath
+    //   .set({
+    //     locationId: locId,
+    //     profilePic: "",
+    //     GroupName: "test dummy",
+    //     recentMessage: "",
+    //     TimeStamp: "",
+    //     uid: groupId,
+    //     // userList: addeduserList,
+    //   })
+    //   .then(() => {})
+    //   .catch(function (e) {});
+    setBusy(false);
   }
 
   return (
@@ -89,7 +163,12 @@ const AddParticipants: React.FC = () => {
             <IonBackButton />
           </IonButton>
 
-          <IonButton slot="end" color="warning" fill="clear">
+          <IonButton
+            slot="end"
+            color="warning"
+            fill="clear"
+            onClick={() => createGroup()}
+          >
             Create Group
           </IonButton>
         </IonToolbar>
@@ -171,7 +250,9 @@ const AddParticipants: React.FC = () => {
                       </IonLabel>
                       <IonRadioGroup
                         value={selected}
-                        onIonChange={(e) => console.log(e.detail.value, object)}
+                        onIonChange={(e) =>
+                          selectedUsers(e.detail.value, object)
+                        }
                       >
                         <IonRadio slot="end" />
                       </IonRadioGroup>

@@ -63,6 +63,8 @@ const Messages: React.FC = () => {
           locationId: data.locationId,
           uid: data.uid,
           lastSeen: data.lastSeen,
+          isGroup: data.isGroup,
+          groupName: data.groupName,
         };
         items.push(jsonObject);
       });
@@ -140,7 +142,9 @@ const Messages: React.FC = () => {
                           />
                         </IonAvatar>
                         <IonLabel>
-                          <h2>{object.email}</h2>
+                          <h2>
+                            {object.isGroup ? object.groupName : object.email}
+                          </h2>
                           <p
                             className={
                               object.lastSeen ? "lastSeentrue" : "lastSeenfalse"
@@ -194,7 +198,9 @@ const Messages: React.FC = () => {
                           />
                         </IonAvatar>
                         <IonLabel>
-                          <h2>{object.email}</h2>
+                          <h2>
+                            {object.isGroup ? object.groupName : object.email}
+                          </h2>
                           <p
                             className={
                               object.lastSeen ? "lastSeentrue" : "lastSeenfalse"
