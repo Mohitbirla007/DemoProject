@@ -37,6 +37,7 @@ import Services from "./pages/Services";
 import Cover from "./pages/Cover";
 import Login from "./pages/Login";
 import ChatScreen from "./pages/ChatScreen";
+import GroupChatScreen from "./pages/GroupChatScreen";
 import ChatList from "./pages/ChatList";
 import Register from "./pages/Register";
 import RegisterDetails from "./pages/RegisterDetails";
@@ -200,6 +201,7 @@ const App: React.FC = () => {
             <Route path="/test" component={Test} exact />
             <Route path="/NewService" component={NewService} exact />
             <Route path="/ChatScreen" component={ChatScreen} exact />
+            <Route path="/GroupChatScreen" component={GroupChatScreen} exact />
             <Route path="/ChatList" component={ChatList} exact />
             <Route path="/registerdetails" component={RegisterDetails} exact />
           </IonRouterOutlet>

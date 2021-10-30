@@ -123,7 +123,9 @@ const Messages: React.FC = () => {
                     className="director"
                     onClick={() => {
                       history.push({
-                        pathname: "/ChatScreen",
+                        pathname: object.isGroup
+                          ? "/GroupChatScreen"
+                          : "/ChatScreen",
                         state: { userData: object },
                       });
                     }}
@@ -181,7 +183,9 @@ const Messages: React.FC = () => {
                     className="director"
                     onClick={() => {
                       history.push({
-                        pathname: "/ChatScreen",
+                        pathname: object.isGroup
+                          ? "/GroupChatScreen"
+                          : "/ChatScreen",
                         state: { userData: object },
                       });
                     }}
