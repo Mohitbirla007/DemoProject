@@ -151,40 +151,42 @@ const GroupChatScreen: React.FC = (props) => {
         items.push(jsonObject);
         keys.push(key);
       });
-      console.log("item data fetched", items);
-      if (items !== null && items !== undefined && items.length > 0) {
-        setChatList(items);
-        setTotalChat(items.length - 1);
-        console.log("item data", items, items.length, keys);
-        let tempItem: any = items[items.length - 1];
-        let tempkey: any = keys[keys.length - 1];
-        let tempUid: any = tempItem.uid;
-        setBusy(false);
-        // console.log("temp data", tempUid, uid, tempkey, data);
-        // if (firstTime) {
-        //   setFirstTime(false);
-        //   if (tempUid === sentUid) {
-        //     console.log("own message");
-        //   } else {
-        //     console.log("opponent message");
-        //     var chatlistpath = realtimedb.ref(
-        //       "conversation/" + data + "/" + tempkey
-        //     );
-        //     chatlistpath
-        //       .update({
-        //         isRead: true,
-        //       })
-        //       .then(() => {
-        //         setMessage("");
-        //       })
-        //       .catch(function (e) {});
-        //   }
-        // }
-      } else {
-        setChatList([]);
-        setTotalChat(0);
-        setBusy(false);
-      }
+      setChatList(items);
+      setTotalChat(items.length - 1);
+      setBusy(false);
+      //   console.log("item data fetched", items);
+      //   if (items !== null && items !== undefined && items.length > 0) {
+      //     setChatList(items);
+      //     setTotalChat(items.length - 1);
+      //     console.log("item data", items, items.length, keys);
+      //     let tempItem: any = items[items.length - 1];
+      //     let tempkey: any = keys[keys.length - 1];
+      //     let tempUid: any = tempItem.uid;
+      // console.log("temp data", tempUid, uid, tempkey, data);
+      // if (firstTime) {
+      //   setFirstTime(false);
+      //   if (tempUid === sentUid) {
+      //     console.log("own message");
+      //   } else {
+      //     console.log("opponent message");
+      //     var chatlistpath = realtimedb.ref(
+      //       "conversation/" + data + "/" + tempkey
+      //     );
+      //     chatlistpath
+      //       .update({
+      //         isRead: true,
+      //       })
+      //       .then(() => {
+      //         setMessage("");
+      //       })
+      //       .catch(function (e) {});
+      //   }
+      // }
+      //   } else {
+      //     setChatList([]);
+      //     setTotalChat(0);
+      //     setBusy(false);
+      //   }
     });
   }
 
@@ -251,62 +253,6 @@ const GroupChatScreen: React.FC = (props) => {
       //       setMessage("");
       //     })
       //     .catch(function (e) {});
-    } else {
-      var locId = makeid(20);
-      setLocationId(locId);
-      //generate data in conversation list
-      var userPath = realtimedb.ref("conversation/" + locId);
-      userPath
-        .push({
-          msgType: data,
-          text: data === "text" ? message : msg,
-          uid: uid,
-          timeStamp: currDate,
-          isRead: false,
-        })
-        .then(() => {
-          setMessage("");
-        })
-        .catch(function (e) {});
-      //generate data in chatlist self
-      var chatlistpathself = realtimedb.ref(
-        "chatlist/" + uid + "/" + opponentUID
-      );
-      chatlistpathself
-        .set({
-          locationId: locId,
-          profilePic: "",
-          userName: "",
-          recentMessage: data === "text" ? message : "image uploaded",
-          email: groupDate?.email,
-          uid: opponentUID,
-          timeStamp: currDate,
-          lastSeen: false,
-        })
-        .then(() => {
-          setMessage("");
-        })
-        .catch(function (e) {});
-      //generate data in chatlist opponent
-      var chatlistpathopponent = realtimedb.ref(
-        "chatlist/" + opponentUID + "/" + uid
-      );
-      chatlistpathopponent
-        .set({
-          locationId: locId,
-          profilePic: "",
-          userName: "",
-          recentMessage: message,
-          email: email,
-          uid: uid,
-          timeStamp: currDate,
-        })
-        .then(() => {
-          setMessage("");
-        })
-        .catch(function (e) {});
-      setFirstMsg(false);
-      fetchChat(locId, "null");
     }
   }
 
@@ -372,25 +318,25 @@ const GroupChatScreen: React.FC = (props) => {
     easing: "ease-in-out",
   };
 
-  function deleteConversation() {
-    setBusy(true);
-    console.log("Yes");
-    var userPath = realtimedb.ref("conversation/" + locationId);
-    userPath.off();
-    var deleteOppoentData = realtimedb.ref(
-      "chatlist/" + opponentUID + "/" + uid
-    );
-    deleteOppoentData.remove();
-    var deleteSelfData = realtimedb.ref("chatlist/" + uid + "/" + opponentUID);
-    deleteSelfData.remove();
-    var deleteConversationPath = realtimedb.ref("conversation/" + locationId);
-    deleteConversationPath.remove();
-    console.log("SUccessfully removed");
-    setBusy(false);
-    history.push({
-      pathname: "/Messages",
-    });
-  }
+  //   function deleteConversation() {
+  //     setBusy(true);
+  //     console.log("Yes");
+  //     var userPath = realtimedb.ref("conversation/" + locationId);
+  //     userPath.off();
+  //     var deleteOppoentData = realtimedb.ref(
+  //       "chatlist/" + opponentUID + "/" + uid
+  //     );
+  //     deleteOppoentData.remove();
+  //     var deleteSelfData = realtimedb.ref("chatlist/" + uid + "/" + opponentUID);
+  //     deleteSelfData.remove();
+  //     var deleteConversationPath = realtimedb.ref("conversation/" + locationId);
+  //     deleteConversationPath.remove();
+  //     console.log("SUccessfully removed");
+  //     setBusy(false);
+  //     history.push({
+  //       pathname: "/Messages",
+  //     });
+  //   }
 
   return (
     <IonPage className="chat-page">
@@ -407,13 +353,13 @@ const GroupChatScreen: React.FC = (props) => {
                 opponentProfilePic !== "" &&
                 opponentProfilePic !== undefined
                   ? opponentProfilePic
-                  : "/assets/editprofile.png"
+                  : "/assets/group_icon.png"
               }
             />
           </IonAvatar>
           <IonList>
             <IonLabel className="title" slot="start">
-              {groupDate?.email}
+              {groupDate?.groupName}
             </IonLabel>
             {/* <div></div>
             <IonLabel className="title">Music Artist</IonLabel> */}
@@ -434,8 +380,6 @@ const GroupChatScreen: React.FC = (props) => {
 
       <IonList className="message-list">
         {chatList.map((object: any, i: any) => {
-          isRead = object.isRead;
-          console.log("isread", isRead, i);
           return (
             <IonRow
               className={
@@ -455,7 +399,7 @@ const GroupChatScreen: React.FC = (props) => {
                   />
                 </IonAvatar>
               )}
-              <IonNote className={"seen-style"}>
+              {/* <IonNote className={"seen-style"}>
                 {totalChat === i
                   ? isRead
                     ? object.uid === uid
@@ -463,7 +407,7 @@ const GroupChatScreen: React.FC = (props) => {
                       : null
                     : null
                   : null}
-              </IonNote>
+              </IonNote> */}
               <IonCard className={"card-style"}>
                 <IonItem>
                   {object.msgType === "text" ? (
@@ -514,7 +458,7 @@ const GroupChatScreen: React.FC = (props) => {
           </IonRow>
         </IonGrid>
       </IonFooter>
-      <IonAlert
+      {/* <IonAlert
         isOpen={showAlert1}
         onDidDismiss={() => setShowAlert1(false)}
         cssClass="my-custom-class"
@@ -533,7 +477,7 @@ const GroupChatScreen: React.FC = (props) => {
             },
           },
         ]}
-      />
+      /> */}
     </IonPage>
   );
 };

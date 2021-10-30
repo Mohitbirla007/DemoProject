@@ -1,38 +1,60 @@
-.participants{
-   text-align: center;
-   color:020202;
+.participants {
+  text-align: center;
+  color: 020202;
+}
+.group_profilr_pic {
+  margin-left: 30px;
+  margin-top: 10px;
+}
+.backcolor {
+  background-color: aquamarine;
+}
+.edit_icon {
+  position: absolute;
+  z-index: 2;
+  margin-left: 30;
+  margin-bottom: 30px;
+}
+.searchbar {
+  width: 95%;
+  position: relative;
+  margin: auto;
+  margin-top: 2%;
+}
+.chat-input-container {
+  width: 80%;
+  align-items: flex-start;
+  margin-left: 30px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: aliceblue;
+}
+.groupName {
+  align-items: flex-start;
+  margin-left: 10px;
+}
+.director {
+  width: 90%;
+  position: relative;
+  margin: auto;
+  margin-top: 4%;
 }
 
-.searchbar{
-    width: 95%;
-    position: relative;
-    margin:auto;
-    margin-top:8%; 
+.suggested {
+  margin-left: 20px;
+  margin-top: 1.9%;
 }
 
-.director{
-    width: 90%;
-    position: relative;
-    margin:auto;
-    margin-top:4%; 
+.coordinator {
+  width: 90%;
+  position: relative;
+  margin: auto;
+  margin-top: 2%;
 }
 
-.suggested{
-margin-left: 20px;
-margin-top:1.9%; 
+.assistant {
+  width: 90%;
+  position: relative;
+  margin: auto;
+  margin-top: 2%;
 }
-
-.coordinator{
-    width: 90%;
-    position: relative;
-    margin:auto;
-    margin-top:2%; 
-}  
-
-.assistant{
-    width: 90%;
-    position: relative;
-    margin:auto; 
-    margin-top:2%;  
-}
-

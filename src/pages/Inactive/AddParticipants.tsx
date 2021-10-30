@@ -17,15 +17,20 @@ import {
   useIonViewDidEnter,
   IonList,
   IonRadioGroup,
+  IonRow,
+  IonTextarea,
+  IonCol,
 } from "@ionic/react";
 import "./AddParticipants.css";
 import db, { auth, realtimedb } from "../../firebaseConfig";
 import { useHistory } from "react-router";
 import moment from "moment";
+import { pencil } from "ionicons/icons";
 
 const AddParticipants: React.FC = () => {
   const [uid, setUid] = useState<string>("");
   const [searchText, setSearchText] = useState("");
+  const [groupName, setGroupName] = useState("");
   const [selected, setSelected] = useState("");
   const [userList, setUserList] = useState<any>([]);
   const [addeduserList, setAddedUserList] = useState<any>([]);
@@ -110,11 +115,11 @@ const AddParticipants: React.FC = () => {
         locationId: locId,
         profilePic: "",
         groupName: "test dummy",
-        recentMessage: "test recent message",
+        recentMessage: "",
         timeStamp: currDate,
         uid: groupId,
         isGroup: true,
-        // userList: addeduserList,
+        userList: JSON.stringify(addeduserList),
       })
       .then(() => {})
       .catch(function (e) {});
@@ -132,7 +137,7 @@ const AddParticipants: React.FC = () => {
           timeStamp: currDate,
           uid: groupId,
           isGroup: true,
-          // userList: addeduserList,
+          userList: JSON.stringify(addeduserList),
         })
         .then(() => {})
         .catch(function (e) {});
@@ -175,6 +180,27 @@ const AddParticipants: React.FC = () => {
       </IonHeader>
 
       <IonContent>
+        <IonRow>
+          <IonCol>
+            <IonTitle className="groupName">Group Name</IonTitle>
+            <IonTextarea
+              className="chat-input-container"
+              rows={1}
+              placeholder={"Enter group name..."}
+              value={groupName}
+              onIonChange={(e: any) => setGroupName(e.detail.value!)}
+            />
+          </IonCol>
+          <IonCol className="backcolor">
+            <IonTitle className="groupName">Group Profile Picture</IonTitle>
+            <IonAvatar className="group_profilr_pic">
+              <img src="/assets/editprofile.png" />
+            </IonAvatar>
+            <IonButton className="edit_icon" fill="clear">
+              <IonIcon icon={pencil} color="danger" />
+            </IonButton>
+          </IonCol>
+        </IonRow>
         <IonSearchbar
           className="searchbar"
           value={searchText}

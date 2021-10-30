@@ -17,6 +17,7 @@ import {
   IonItemOption,
   IonFooter,
   IonAlert,
+  IonBackButton,
 } from "@ionic/react";
 import { chevronBack, personAddOutline } from "ionicons/icons";
 import "./Participants.css";
@@ -29,8 +30,8 @@ const Tab5: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle className="title">Participants List</IonTitle>
-          <IonButton href="/conversation" slot="start" fill="clear">
-            <IonIcon icon={chevronBack} />
+          <IonButton slot="start" fill="clear">
+            <IonBackButton />
           </IonButton>
           <IonButton
             className="participantsicon"
