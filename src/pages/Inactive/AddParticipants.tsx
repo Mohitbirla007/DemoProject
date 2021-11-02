@@ -20,17 +20,25 @@ import {
   IonRow,
   IonTextarea,
   IonCol,
+  IonLoading,
 } from "@ionic/react";
 import "./AddParticipants.css";
-import db, { auth, realtimedb } from "../../firebaseConfig";
+import db, { auth, realtimedb, storageRef } from "../../firebaseConfig";
 import { useHistory } from "react-router";
 import moment from "moment";
-import { pencil } from "ionicons/icons";
+import { cameraOutline, pencil } from "ionicons/icons";
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from "@capacitor/camera";
 
 const AddParticipants: React.FC = () => {
   const [uid, setUid] = useState<string>("");
   const [searchText, setSearchText] = useState("");
   const [groupName, setGroupName] = useState("");
+  const [groupPic, setGroupPic] = useState("");
   const [selected, setSelected] = useState("");
   const [userList, setUserList] = useState<any>([]);
   const [addeduserList, setAddedUserList] = useState<any>([]);
@@ -104,35 +112,28 @@ const AddParticipants: React.FC = () => {
   }
 
   function createGroup() {
-    // console.log("create db on firebase", addeduserList);
-    var currDate: any = moment().format();
-    setBusy(true);
-    var groupId = makeid(28);
-    var locId = makeid(28);
-    var chatlistpathself = realtimedb.ref("chatlist/" + uid + "/" + groupId);
-    chatlistpathself
-      .set({
+    if (groupName !== "" && groupName !== null) {
+      // console.log("create db on firebase", addeduserList);
+      var currDate: any = moment().format();
+      setBusy(true);
+      var groupId = makeid(28);
+      var locId = makeid(28);
+      let userData = {
         locationId: locId,
-        profilePic: "",
-        groupName: "test dummy",
+        profilePic: groupPic !== "" && groupPic !== null ? groupPic : "",
+        groupName: groupName,
         recentMessage: "",
         timeStamp: currDate,
         uid: groupId,
         isGroup: true,
         userList: JSON.stringify(addeduserList),
-      })
-      .then(() => {})
-      .catch(function (e) {});
-    addeduserList.forEach((element: any) => {
-      console.log("users added", element.uid);
-      var chatlistpathopponent = realtimedb.ref(
-        "chatlist/" + element.uid + "/" + groupId
-      );
-      chatlistpathopponent
+      };
+      var chatlistpathself = realtimedb.ref("chatlist/" + uid + "/" + groupId);
+      chatlistpathself
         .set({
           locationId: locId,
-          profilePic: "",
-          groupName: "test dummy",
+          profilePic: groupPic !== "" && groupPic !== null ? groupPic : "",
+          groupName: groupName,
           recentMessage: "",
           timeStamp: currDate,
           uid: groupId,
@@ -141,26 +142,78 @@ const AddParticipants: React.FC = () => {
         })
         .then(() => {})
         .catch(function (e) {});
+      addeduserList.forEach((element: any) => {
+        console.log("users added", element.uid);
+        var chatlistpathopponent = realtimedb.ref(
+          "chatlist/" + element.uid + "/" + groupId
+        );
+        chatlistpathopponent
+          .set({
+            locationId: locId,
+            profilePic: groupPic !== "" && groupPic !== null ? groupPic : "",
+            groupName: groupName,
+            recentMessage: "",
+            timeStamp: currDate,
+            uid: groupId,
+            isGroup: true,
+            userList: JSON.stringify(addeduserList),
+          })
+          .then(() => {})
+          .catch(function (e) {});
+      });
+      // var locId = makeid(28);
+      // var groupChatpath = realtimedb.ref("groupChat/" + groupId);
+      // groupChatpath
+      //   .set({
+      //     locationId: locId,
+      //     profilePic: "",
+      //     GroupName: "test dummy",
+      //     recentMessage: "",
+      //     TimeStamp: "",
+      //     uid: groupId,
+      //     // userList: addeduserList,
+      //   })
+      //   .then(() => {})
+      //   .catch(function (e) {});
+      setBusy(false);
+      history.push({
+        pathname: "/GroupChatScreen",
+        state: { userData },
+      });
+    } else {
+      alert("Group Name can not be empty");
+    }
+  }
+
+  async function takePicture() {
+    const cameraPhoto = await Camera.getPhoto({
+      resultType: CameraResultType.Base64,
+      // source: CameraSource.Camera,
+      webUseInput: true,
+      quality: 100,
     });
-    // var locId = makeid(28);
-    // var groupChatpath = realtimedb.ref("groupChat/" + groupId);
-    // groupChatpath
-    //   .set({
-    //     locationId: locId,
-    //     profilePic: "",
-    //     GroupName: "test dummy",
-    //     recentMessage: "",
-    //     TimeStamp: "",
-    //     uid: groupId,
-    //     // userList: addeduserList,
-    //   })
-    //   .then(() => {})
-    //   .catch(function (e) {});
-    setBusy(false);
+    var time: any = new Date();
+    let urlPath: any = cameraPhoto.base64String;
+    let mediaUpload = storageRef.child("media/" + "GroupImage" + time);
+    console.log("take photo response", cameraPhoto);
+    setBusy(true);
+    mediaUpload
+      .putString(urlPath, "base64", {
+        contentType: "image/jpg",
+      })
+      .then((snapshot) => snapshot.ref.getDownloadURL())
+      .then((url) => {
+        setTimeout(() => {
+          console.log(url);
+          setGroupPic(url);
+          setBusy(false);
+        }, 500);
+      });
   }
 
   return (
     <IonPage>
+      <IonLoading message="Please wait..." duration={0} isOpen={busy} />
       <IonHeader>
         <IonToolbar>
           <IonTitle className="title">Add Participants</IonTitle>
@@ -194,11 +247,21 @@ const AddParticipants: React.FC = () => {
           <IonCol className="backcolor">
             <IonTitle className="groupName">Group Profile Picture</IonTitle>
             <IonAvatar className="group_profilr_pic">
-              <img src="/assets/editprofile.png" />
+              <img
+                src={
+                  groupPic !== null && groupPic !== "" && groupPic !== undefined
+                    ? groupPic
+                    : "/assets/editprofile.png"
+                }
+              />
+              <IonButton
+                className="edit_icon"
+                fill="clear"
+                onClick={() => takePicture()}
+              >
+                <IonIcon icon={cameraOutline} color="danger" />
+              </IonButton>
             </IonAvatar>
-            <IonButton className="edit_icon" fill="clear">
-              <IonIcon icon={pencil} color="danger" />
-            </IonButton>
           </IonCol>
         </IonRow>
         <IonSearchbar
