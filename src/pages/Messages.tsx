@@ -65,6 +65,7 @@ const Messages: React.FC = () => {
           lastSeen: data.lastSeen,
           isGroup: data.isGroup,
           groupName: data.groupName,
+          userList: data.userList,
         };
         items.push(jsonObject);
       });

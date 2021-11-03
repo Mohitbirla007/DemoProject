@@ -1,4 +1,8 @@
-.participantsicon{
-    font-size: 1.0em;
-    margin-right: 10px;
+.participantsicon {
+  font-size: 1em;
+  margin-right: 10px;
+}
+.admin_name {
+  font-weight: bold;
+  font-size: 15px;
 }

@@ -470,21 +470,21 @@ const ChatScreen: React.FC = (props) => {
       <IonFooter className="chat-footer" id="chat-footer">
         <IonGrid>
           <IonRow className="ion-align-items-center">
-            <IonCol size="1">
-              <IonIcon
-                icon={addOutline}
-                color="primary"
-                onClick={() => takePicture()}
-              />
-            </IonCol>
-            <div className="chat-input-container">
-              <IonTextarea
-                rows={1}
-                placeholder={"type here..."}
-                value={message}
-                onIonChange={(e: any) => setMessage(e.detail.value!)}
-              />
-            </div>
+            {/* <IonCol size="1"> */}
+            <IonIcon
+              icon={addOutline}
+              color="primary"
+              onClick={() => takePicture()}
+            />
+            {/* </IonCol> */}
+            {/* <div className="chat-input-container"> */}
+            <IonTextarea
+              rows={1}
+              placeholder={"type here..."}
+              value={message}
+              onIonChange={(e: any) => setMessage(e.detail.value!)}
+            />
+            {/* </div> */}
             <IonCol
               size="1"
               className="chat-send-button"

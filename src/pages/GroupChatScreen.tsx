@@ -48,7 +48,7 @@ import { useHistory } from "react-router";
 import moment from "moment";
 
 const GroupChatScreen: React.FC = (props) => {
-  console.log("i am groupchat screen");
+  console.log("i am groupchat screen", props);
   var isRead = false;
   const [uid, setUid] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -69,14 +69,14 @@ const GroupChatScreen: React.FC = (props) => {
   const [firstTime, setFirstTime] = useState<any>(false);
   const [propData, setPropData] = useState<any>(props);
   // console.log("props data", props);
-  // var groupDate = propData?.location?.state?.groupDate;
-  const [groupDate, setgroupDate] = useState<any>(
+  // var groupData = propData?.location?.state?.groupData;
+  const [groupData, setgroupData] = useState<any>(
     propData?.location?.state?.userData
   );
-  const [locationId, setLocationId] = useState<any>(groupDate?.locationId);
-  const [opponentUID, setOpponentUID] = useState<any>(groupDate?.uid);
+  const [locationId, setLocationId] = useState<any>(groupData?.locationId);
+  const [opponentUID, setOpponentUID] = useState<any>(groupData?.uid);
   const [opponentProfilePic, setOpponentProfilePic] = useState<any>(
-    groupDate?.profilePic
+    groupData?.profilePic
   );
   //  Refs
   // const contentRef = useRef<HTMLDivElement>();
@@ -359,7 +359,7 @@ const GroupChatScreen: React.FC = (props) => {
           </IonAvatar>
           <IonList>
             <IonLabel className="title" slot="start">
-              {groupDate?.groupName}
+              {groupData?.groupName}
             </IonLabel>
             {/* <div></div>
             <IonLabel className="title">Music Artist</IonLabel> */}
@@ -370,6 +370,7 @@ const GroupChatScreen: React.FC = (props) => {
             onClick={() => {
               history.push({
                 pathname: "/Participants",
+                state: { groupData: groupData },
               });
             }}
           >
@@ -433,21 +434,21 @@ const GroupChatScreen: React.FC = (props) => {
       <IonFooter className="chat-footer" id="chat-footer">
         <IonGrid>
           <IonRow className="ion-align-items-center">
-            <IonCol size="1">
-              <IonIcon
-                icon={addOutline}
-                color="primary"
-                onClick={() => takePicture()}
-              />
-            </IonCol>
-            <div className="chat-input-container">
-              <IonTextarea
-                rows={1}
-                placeholder={"type here..."}
-                value={message}
-                onIonChange={(e: any) => setMessage(e.detail.value!)}
-              />
-            </div>
+            {/* <IonCol size="1"> */}
+            <IonIcon
+              icon={addOutline}
+              color="primary"
+              onClick={() => takePicture()}
+            />
+            {/* </IonCol> */}
+            {/* <div className="chat-input-container"> */}
+            <IonTextarea
+              rows={1}
+              placeholder={"type here..."}
+              value={message}
+              onIonChange={(e: any) => setMessage(e.detail.value!)}
+            />
+            {/* </div> */}
             <IonCol
               size="1"
               className="chat-send-button"

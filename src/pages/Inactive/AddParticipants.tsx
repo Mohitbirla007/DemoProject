@@ -48,6 +48,7 @@ const AddParticipants: React.FC = () => {
 
   useIonViewDidEnter(async () => {
     var data = await auth.currentUser;
+    let temp: any = addeduserList;
     var uid: any = data?.uid;
     setUid(uid);
     // console.log("ionViewDidEnter event fired", data);
@@ -67,6 +68,10 @@ const AddParticipants: React.FC = () => {
         };
         if (uid !== data.uid) {
           items.push(jsonObject);
+        } else {
+          let newarr: any = { isAdmin: true, ...jsonObject };
+          temp.push(newarr);
+          setAddedUserList(temp);
         }
       });
       setUserList(items);
@@ -104,9 +109,10 @@ const AddParticipants: React.FC = () => {
     return result;
   }
 
-  function selectedUsers(data1: string, data2: string) {
+  function selectedUsers(data1: any, data2: any) {
     let temp: any = addeduserList;
-    temp.push(data2);
+    let newarr: any = { isAdmin: false, ...data2 };
+    temp.push(newarr);
     setAddedUserList(temp);
     console.log("radio data", data1, data2, temp, addeduserList);
   }
@@ -128,20 +134,20 @@ const AddParticipants: React.FC = () => {
         isGroup: true,
         userList: JSON.stringify(addeduserList),
       };
-      var chatlistpathself = realtimedb.ref("chatlist/" + uid + "/" + groupId);
-      chatlistpathself
-        .set({
-          locationId: locId,
-          profilePic: groupPic !== "" && groupPic !== null ? groupPic : "",
-          groupName: groupName,
-          recentMessage: "",
-          timeStamp: currDate,
-          uid: groupId,
-          isGroup: true,
-          userList: JSON.stringify(addeduserList),
-        })
-        .then(() => {})
-        .catch(function (e) {});
+      // var chatlistpathself = realtimedb.ref("chatlist/" + uid + "/" + groupId);
+      // chatlistpathself
+      //   .set({
+      //     locationId: locId,
+      //     profilePic: groupPic !== "" && groupPic !== null ? groupPic : "",
+      //     groupName: groupName,
+      //     recentMessage: "",
+      //     timeStamp: currDate,
+      //     uid: groupId,
+      //     isGroup: true,
+      //     userList: JSON.stringify(addeduserList),
+      //   })
+      //   .then(() => {})
+      //   .catch(function (e) {});
       addeduserList.forEach((element: any) => {
         console.log("users added", element.uid);
         var chatlistpathopponent = realtimedb.ref(

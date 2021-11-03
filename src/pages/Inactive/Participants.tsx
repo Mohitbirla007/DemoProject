@@ -18,13 +18,26 @@ import {
   IonFooter,
   IonAlert,
   IonBackButton,
+  IonList,
 } from "@ionic/react";
 import { chevronBack, personAddOutline } from "ionicons/icons";
 import "./Participants.css";
+import moment from "moment";
 
-const Tab5: React.FC = () => {
+const Tab5: React.FC = (props) => {
+  console.log("props data", props);
   const [showAlert1, setShowAlert1] = useState(false);
   const [showAlert2, setShowAlert2] = useState(false);
+  const [showAlert3, setShowAlert3] = useState(false);
+  const [showAlert4, setShowAlert4] = useState(false);
+  const [propData, setPropData] = useState<any>(props);
+  // console.log("props data", props);
+  // var userData = propData?.location?.state?.userData;
+  const [userList, setUserList] = useState<any>(
+    JSON.parse(propData?.location?.state?.groupData?.userList)
+  );
+  console.log("user list", userList);
+
   return (
     <IonPage>
       <IonHeader>
@@ -45,63 +58,57 @@ const Tab5: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonCard className="firstcard">
-          <IonItemSliding>
-            <IonItem>
-              <IonAvatar slot="start">
-                <img src="./avatar-finn.png" />
-              </IonAvatar>
-              <IonLabel>
-                <h2>Mathew Thomas</h2>
-                <p>BBC Production Director</p>
-              </IonLabel>
-            </IonItem>
-            <IonItemOptions side="end">
-              <IonItemOption onClick={() => {}}>Mute</IonItemOption>
-              <IonItemOption color="danger" onClick={() => {}}>
-                Delete
-              </IonItemOption>
-            </IonItemOptions>
-          </IonItemSliding>
-        </IonCard>
-        <IonCard className="secondcard">
-          <IonItemSliding>
-            <IonItem>
-              <IonAvatar slot="start">
-                <img src="./avatar-finn.png" />
-              </IonAvatar>
-              <IonLabel>
-                <h2>Sarah Ying</h2>
-                <p>BBC Coordinator</p>
-              </IonLabel>
-            </IonItem>
-            <IonItemOptions side="end">
-              <IonItemOption onClick={() => {}}>Mute</IonItemOption>
-              <IonItemOption color="danger" onClick={() => {}}>
-                Delete
-              </IonItemOption>
-            </IonItemOptions>
-          </IonItemSliding>
-        </IonCard>
-        <IonCard className="secondcard">
-          <IonItemSliding>
-            <IonItem>
-              <IonAvatar slot="start">
-                <img src="./avatar-finn.png" />
-              </IonAvatar>
-              <IonLabel>
-                <h2>Diana Brown</h2>
-                <p>BBC Assistant Director</p>
-              </IonLabel>
-            </IonItem>
-            <IonItemOptions side="end">
-              <IonItemOption onClick={() => {}}>Mute</IonItemOption>
-              <IonItemOption color="danger" onClick={() => {}}>
-                Delete
-              </IonItemOption>
-            </IonItemOptions>
-          </IonItemSliding>
-        </IonCard>
+        <IonList>
+          {userList.map((object: any, i: any) => {
+            return (
+              <IonCard
+                className="director"
+                onClick={() => {
+                  console.log("user data", object);
+                }}
+              >
+                <IonItemSliding>
+                  <IonItem lines="none">
+                    <IonAvatar slot="start">
+                      <img
+                        src={
+                          object.profilePic !== null &&
+                          object.profilePic !== "" &&
+                          object.profilePic !== undefined
+                            ? object.profilePic
+                            : "/assets/editprofile.png"
+                        }
+                      />
+                    </IonAvatar>
+                    <IonLabel>
+                      <h2>{object.email}</h2>
+                    </IonLabel>
+                    <IonNote slot="end" className="admin_name">
+                      {object.isAdmin ? "Admin" : null}
+                    </IonNote>
+                  </IonItem>
+                  {!object.isAdmin && (
+                    <IonItemOptions side="end">
+                      <IonItemOption
+                        color="danger"
+                        onClick={() => setShowAlert3(true)}
+                      >
+                        Remove Participant
+                      </IonItemOption>
+                      <IonItemOption
+                        className="messagedelete"
+                        color="warning"
+                        onClick={() => setShowAlert4(true)}
+                      >
+                        Add as Admin
+                      </IonItemOption>
+                    </IonItemOptions>
+                  )}
+                </IonItemSliding>
+              </IonCard>
+            );
+          })}
+        </IonList>
       </IonContent>
       <IonFooter>
         <IonToolbar>
@@ -140,6 +147,24 @@ const Tab5: React.FC = () => {
               "This will remove everyone, including you, from the group."
             }
             buttons={["Cancel", "End Chat"]}
+          />
+
+          <IonAlert
+            isOpen={showAlert3}
+            onDidDismiss={() => setShowAlert3(false)}
+            cssClass="my-custom-class"
+            header={"Remove Participant"}
+            message={"Are you sure you want to remove this Participant."}
+            buttons={["No", "Yes"]}
+          />
+
+          <IonAlert
+            isOpen={showAlert4}
+            onDidDismiss={() => setShowAlert4(false)}
+            cssClass="my-custom-class"
+            header={"Add as ADMIN"}
+            message={"Are you sure you want to add this Participant as ADMIN"}
+            buttons={["No", "Yes"]}
           />
         </IonToolbar>
       </IonFooter>
