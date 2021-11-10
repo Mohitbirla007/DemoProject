@@ -259,7 +259,7 @@ const Messages: React.FC = () => {
             text: "Create Group chat",
             handler: () => {
               history.push({
-                pathname: "/AddParticipants",
+                pathname: "/CreateGroup",
               });
             },
           },

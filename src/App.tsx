@@ -53,6 +53,7 @@ import ApprovalSummary from "./pages/ApprovalSummary";
 import Conversation from "./pages/Conversation";
 import Participants from "./pages/Inactive/Participants";
 import AddParticipants from "./pages/Inactive/AddParticipants";
+import CreateGroup from "./pages/Inactive/CreateGroup";
 import Accounts from "./pages/Inactive/Accounts";
 import RemoveAccount from "./pages/RemoveAccount";
 import PaymentSummary from "./pages/PaymentSummary";
@@ -176,6 +177,7 @@ const App: React.FC = () => {
             <Route path="/conversation" component={Conversation} exact />
             <Route path="/participants" component={Participants} exact />
             <Route path="/addparticipants" component={AddParticipants} exact />
+            <Route path="/CreateGroup" component={CreateGroup} exact />
             <Route path="/accounts" component={Accounts} exact />
             <Route path="/removeaccount" component={RemoveAccount} exact />
             <Route path="/paymentsummary" component={PaymentSummary} exact />
