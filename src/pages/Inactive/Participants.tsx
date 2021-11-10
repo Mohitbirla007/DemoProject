@@ -14,6 +14,7 @@ import {
   IonLabel,
   IonNote,
   IonItemOptions,
+  useIonViewDidEnter,
   IonItemOption,
   IonFooter,
   IonAlert,
@@ -35,6 +36,7 @@ const Tab5: React.FC = (props) => {
   const [showAlert3, setShowAlert3] = useState(false);
   const [showAlert4, setShowAlert4] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
+  const [selfData, setSelfData] = useState("");
   const [propData, setPropData] = useState<any>(props);
   const [busy, setBusy] = useState<boolean>(false);
 
@@ -46,6 +48,11 @@ const Tab5: React.FC = (props) => {
     propData?.location?.state?.groupData?.uid
   );
   // console.log("user list", userList);
+
+  useIonViewDidEnter(async () => {
+    var data: any = await auth.currentUser;
+    setSelfData(data);
+  });
 
   function deleteConversation() {
     setBusy(true);
@@ -109,6 +116,57 @@ const Tab5: React.FC = (props) => {
     });
     console.log("Successfully added");
     setBusy(false);
+  }
+
+  function leaveChat() {
+    setBusy(true);
+    console.log("Yes leave participant", userList, selfData);
+    let testUser: any = selfData;
+    let index1 = userList.findIndex(
+      (element: any) => element.uid === testUser.uid
+    );
+    userList.splice(index1, 1);
+    let index2 = userList.findIndex((element: any) => element.isAdmin === true);
+    console.log("Yes leave participant", userList, testUser, index1, index2);
+    if (userList.length > 0) {
+      if (index2 === -1) {
+        console.log("no admin found");
+        userList[0].isAdmin = true;
+        userList.forEach((element: any) => {
+          var chatlistpath = realtimedb.ref(
+            "chatlist/" + element.uid + "/" + opponentUID
+          );
+          chatlistpath.update({
+            userList: JSON.stringify(userList),
+          });
+          console.log("user list to leave", chatlistpath);
+        });
+        var removeuserpath = realtimedb.ref(
+          "chatlist/" + testUser.uid + "/" + opponentUID
+        );
+        removeuserpath.remove();
+      } else {
+        console.log("already had an admin");
+        userList.forEach((element: any) => {
+          var chatlistpath = realtimedb.ref(
+            "chatlist/" + element.uid + "/" + opponentUID
+          );
+          chatlistpath.update({
+            userList: JSON.stringify(userList),
+          });
+          console.log("user list to leave", chatlistpath);
+        });
+        var removeuserpath = realtimedb.ref(
+          "chatlist/" + testUser.uid + "/" + opponentUID
+        );
+        removeuserpath.remove();
+      }
+    }
+    console.log("Successfully leave");
+    setBusy(false);
+    history.replace({
+      pathname: "/Messages",
+    });
   }
 
   return (
@@ -220,7 +278,7 @@ const Tab5: React.FC = (props) => {
               {
                 text: "Leave Chat",
                 handler: () => {
-                  console.log("Leave Chat");
+                  leaveChat();
                 },
               },
             ]}
