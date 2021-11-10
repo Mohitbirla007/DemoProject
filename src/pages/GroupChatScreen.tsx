@@ -48,7 +48,6 @@ import { useHistory } from "react-router";
 import moment from "moment";
 
 const GroupChatScreen: React.FC = (props) => {
-  console.log("i am groupchat screen", props);
   var isRead = false;
   const [uid, setUid] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -68,10 +67,12 @@ const GroupChatScreen: React.FC = (props) => {
   const [busy, setBusy] = useState<boolean>(false);
   const [firstTime, setFirstTime] = useState<any>(false);
   const [propData, setPropData] = useState<any>(props);
-  // console.log("props data", props);
   // var groupData = propData?.location?.state?.groupData;
   const [groupData, setgroupData] = useState<any>(
     propData?.location?.state?.userData
+  );
+  const [userList, setUserList] = useState<any>(
+    JSON.parse(groupData?.userList)
   );
   const [locationId, setLocationId] = useState<any>(groupData?.locationId);
   const [opponentUID, setOpponentUID] = useState<any>(groupData?.uid);
@@ -102,32 +103,6 @@ const GroupChatScreen: React.FC = (props) => {
     );
 
     fetchChat(locationId, data?.uid);
-    //fetching opponent message location id
-    // var locationIdPath = realtimedb.ref(
-    //   "chatlist/" + data?.uid + "/" + opponentUID
-    // );
-    // console.log("locationIdpath", locationIdPath);
-    // locationIdPath.once("value", (snapshot) => {
-    //   if (snapshot.val() !== null && snapshot.val() !== undefined) {
-    //     console.log("opponent data", snapshot.val(), snapshot.key);
-    //     setLocationId(snapshot.val().locationId);
-    //     fetchChat(snapshot.val().locationId, data?.uid);
-    //     var chatlistpath = realtimedb.ref(
-    //       "chatlist/" + uid + "/" + opponentUID
-    //     );
-    //     chatlistpath
-    //       .update({
-    //         lastSeen: false,
-    //       })
-    //       .then(() => {
-    //         setMessage("");
-    //       })
-    //       .catch(function (e) {});
-    //   } else {
-    //     setFirstMsg(true);
-    //   }
-    //   setBusy(false);
-    // });
   });
 
   function fetchChat(data: string, sentUid: any) {
@@ -227,32 +202,22 @@ const GroupChatScreen: React.FC = (props) => {
         .catch(function (e) {});
 
       //update recent message and timeStamp
-      //   var chatlistpathself = realtimedb.ref(
-      //     "chatlist/" + uid + "/" + opponentUID
-      //   );
-      //   chatlistpathself
-      //     .update({
-      //       recentMessage: data === "text" ? message : "image uploaded",
-      //       timeStamp: currDate,
-      //       lastSeen: false,
-      //     })
-      //     .then(() => {
-      //       setMessage("");
-      //     })
-      //     .catch(function (e) {});
-      //   var chatlistpathopponent = realtimedb.ref(
-      //     "chatlist/" + opponentUID + "/" + uid
-      //   );
-      //   chatlistpathopponent
-      //     .update({
-      //       recentMessage: data === "text" ? message : "image uploaded",
-      //       timeStamp: currDate,
-      //       lastSeen: true,
-      //     })
-      //     .then(() => {
-      //       setMessage("");
-      //     })
-      //     .catch(function (e) {});
+      userList.forEach((element: any) => {
+        var chatlistpath = realtimedb.ref(
+          "chatlist/" + element.uid + "/" + opponentUID
+        );
+        chatlistpath
+          .update({
+            recentMessage: data === "text" ? message : "image uploaded",
+            timeStamp: currDate,
+            lastSeen: false,
+          })
+          .then(() => {
+            setMessage("");
+          })
+          .catch(function (e) {});
+        console.log("user list", chatlistpath);
+      });
     }
   }
 
@@ -400,15 +365,6 @@ const GroupChatScreen: React.FC = (props) => {
                   />
                 </IonAvatar>
               )}
-              {/* <IonNote className={"seen-style"}>
-                {totalChat === i
-                  ? isRead
-                    ? object.uid === uid
-                      ? "Seen"
-                      : null
-                    : null
-                  : null}
-              </IonNote> */}
               <IonCard className={"card-style"}>
                 <IonItem>
                   {object.msgType === "text" ? (

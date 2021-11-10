@@ -19,27 +19,101 @@ import {
   IonAlert,
   IonBackButton,
   IonList,
+  IonLoading,
 } from "@ionic/react";
 import { chevronBack, personAddOutline } from "ionicons/icons";
 import "./Participants.css";
+import { auth, realtimedb, storageRef } from "../../firebaseConfig";
+import { useHistory } from "react-router";
 import moment from "moment";
 
 const Tab5: React.FC = (props) => {
-  console.log("props data", props);
+  // console.log("props data", props);
+  let history = useHistory();
   const [showAlert1, setShowAlert1] = useState(false);
   const [showAlert2, setShowAlert2] = useState(false);
   const [showAlert3, setShowAlert3] = useState(false);
   const [showAlert4, setShowAlert4] = useState(false);
+  const [selectedUser, setSelectedUser] = useState("");
   const [propData, setPropData] = useState<any>(props);
-  // console.log("props data", props);
+  const [busy, setBusy] = useState<boolean>(false);
+
   // var userData = propData?.location?.state?.userData;
   const [userList, setUserList] = useState<any>(
     JSON.parse(propData?.location?.state?.groupData?.userList)
   );
-  console.log("user list", userList);
+  const [opponentUID, setOpponentUID] = useState<any>(
+    propData?.location?.state?.groupData?.uid
+  );
+  // console.log("user list", userList);
+
+  function deleteConversation() {
+    setBusy(true);
+    userList.forEach((element: any) => {
+      var chatlistpath = realtimedb.ref(
+        "chatlist/" + element.uid + "/" + opponentUID
+      );
+      chatlistpath.remove();
+    });
+    setBusy(false);
+    history.replace({
+      pathname: "/Messages",
+    });
+  }
+
+  function removeParticipant() {
+    setBusy(true);
+    console.log("Yes remove participant", userList, selectedUser);
+    let testUser: any = selectedUser;
+    let index = userList.findIndex(
+      (element: any) => element.email === testUser.email
+    );
+    userList.splice(index, 1);
+    console.log("Yes remove participant", userList, testUser, index);
+
+    userList.forEach((element: any) => {
+      var chatlistpath = realtimedb.ref(
+        "chatlist/" + element.uid + "/" + opponentUID
+      );
+      chatlistpath.update({
+        userList: JSON.stringify(userList),
+      });
+      console.log("user list to removed", chatlistpath);
+    });
+    var removeuserpath = realtimedb.ref(
+      "chatlist/" + testUser.uid + "/" + opponentUID
+    );
+    removeuserpath.remove();
+    console.log("Successfully removed");
+    setBusy(false);
+  }
+
+  function addAdmin() {
+    setBusy(true);
+    console.log("Yes add Admin", userList, selectedUser);
+    let testUser: any = selectedUser;
+    let index = userList.findIndex(
+      (element: any) => element.email === testUser.email
+    );
+    userList[index].isAdmin = true;
+    console.log("Yes add Admin", userList, testUser, index);
+
+    userList.forEach((element: any) => {
+      var chatlistpath = realtimedb.ref(
+        "chatlist/" + element.uid + "/" + opponentUID
+      );
+      chatlistpath.update({
+        userList: JSON.stringify(userList),
+      });
+      console.log("user list to add", chatlistpath);
+    });
+    console.log("Successfully added");
+    setBusy(false);
+  }
 
   return (
     <IonPage>
+      <IonLoading message="Please wait..." duration={0} isOpen={busy} />
       <IonHeader>
         <IonToolbar>
           <IonTitle className="title">Participants List</IonTitle>
@@ -65,6 +139,7 @@ const Tab5: React.FC = (props) => {
                 className="director"
                 onClick={() => {
                   console.log("user data", object);
+                  setSelectedUser(object);
                 }}
               >
                 <IonItemSliding>
@@ -133,9 +208,22 @@ const Tab5: React.FC = (props) => {
             cssClass="my-custom-class"
             header={"Leave Chat"}
             message={
-              "You will not receieve messages from this group unless someone aadds you to the conversation again."
+              "You will not receieve messages from this group unless someone adds you to the conversation again."
             }
-            buttons={["Cancel", "Leave Chat"]}
+            buttons={[
+              {
+                text: "Cancel",
+                handler: () => {
+                  console.log("Cancel");
+                },
+              },
+              {
+                text: "Leave Chat",
+                handler: () => {
+                  console.log("Leave Chat");
+                },
+              },
+            ]}
           />
 
           <IonAlert
@@ -146,7 +234,20 @@ const Tab5: React.FC = (props) => {
             message={
               "This will remove everyone, including you, from the group."
             }
-            buttons={["Cancel", "End Chat"]}
+            buttons={[
+              {
+                text: "Cancel",
+                handler: () => {
+                  console.log("Cancel");
+                },
+              },
+              {
+                text: "End Chat",
+                handler: () => {
+                  deleteConversation();
+                },
+              },
+            ]}
           />
 
           <IonAlert
@@ -155,7 +256,20 @@ const Tab5: React.FC = (props) => {
             cssClass="my-custom-class"
             header={"Remove Participant"}
             message={"Are you sure you want to remove this Participant."}
-            buttons={["No", "Yes"]}
+            buttons={[
+              {
+                text: "No",
+                handler: () => {
+                  console.log("No");
+                },
+              },
+              {
+                text: "Yes",
+                handler: () => {
+                  removeParticipant();
+                },
+              },
+            ]}
           />
 
           <IonAlert
@@ -164,7 +278,20 @@ const Tab5: React.FC = (props) => {
             cssClass="my-custom-class"
             header={"Add as ADMIN"}
             message={"Are you sure you want to add this Participant as ADMIN"}
-            buttons={["No", "Yes"]}
+            buttons={[
+              {
+                text: "No",
+                handler: () => {
+                  console.log("No");
+                },
+              },
+              {
+                text: "Yes",
+                handler: () => {
+                  addAdmin();
+                },
+              },
+            ]}
           />
         </IonToolbar>
       </IonFooter>
