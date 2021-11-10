@@ -34,15 +34,25 @@ import {
   Photo,
 } from "@capacitor/camera";
 
-const AddParticipants: React.FC = () => {
+const AddParticipants: React.FC = (props) => {
   const [uid, setUid] = useState<string>("");
   const [searchText, setSearchText] = useState("");
   const [groupName, setGroupName] = useState("");
   const [groupPic, setGroupPic] = useState("");
   const [selected, setSelected] = useState("");
   const [userList, setUserList] = useState<any>([]);
+  const [propData, setPropData] = useState<any>(props);
   const [addeduserList, setAddedUserList] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>(null);
+  const [groupUserList, setGroupUserList] = useState<any>(
+    JSON.parse(propData?.location?.state?.groupData?.userList)
+  );
+  const [opponentUID, setOpponentUID] = useState<any>(
+    propData?.location?.state?.groupData?.uid
+  );
+  const [groupData, setGroupData] = useState(
+    propData?.location?.state?.groupData
+  );
   const [busy, setBusy] = useState<boolean>(false);
   let history = useHistory();
 
@@ -66,12 +76,11 @@ const AddParticipants: React.FC = () => {
           profilepic: data.profilePic,
           uid: data.uid,
         };
-        if (uid !== data.uid) {
+        var index = groupUserList.findIndex(
+          (element: any) => element.uid === data.uid
+        );
+        if (uid !== data.uid && index === -1) {
           items.push(jsonObject);
-        } else {
-          let newarr: any = { isAdmin: true, ...jsonObject };
-          temp.push(newarr);
-          setAddedUserList(temp);
         }
       });
       setUserList(items);
@@ -107,50 +116,47 @@ const AddParticipants: React.FC = () => {
   }
 
   function createGroup() {
-    console.log("add listed participant", addeduserList);
-    // if (groupName !== "" && groupName !== null) {
-    //   // console.log("create db on firebase", addeduserList);
-    //   var currDate: any = moment().format();
-    //   setBusy(true);
-    //   var groupId = makeid(28);
-    //   var locId = makeid(28);
-    //   let userData = {
-    //     locationId: locId,
-    //     profilePic: groupPic !== "" && groupPic !== null ? groupPic : "",
-    //     groupName: groupName,
-    //     recentMessage: "",
-    //     timeStamp: currDate,
-    //     uid: groupId,
-    //     isGroup: true,
-    //     userList: JSON.stringify(addeduserList),
-    //   };
-    //   addeduserList.forEach((element: any) => {
-    //     console.log("users added", element.uid);
-    //     var chatlistpathopponent = realtimedb.ref(
-    //       "chatlist/" + element.uid + "/" + groupId
-    //     );
-    //     chatlistpathopponent
-    //       .set({
-    //         locationId: locId,
-    //         profilePic: groupPic !== "" && groupPic !== null ? groupPic : "",
-    //         groupName: groupName,
-    //         recentMessage: "",
-    //         timeStamp: currDate,
-    //         uid: groupId,
-    //         isGroup: true,
-    //         userList: JSON.stringify(addeduserList),
-    //       })
-    //       .then(() => {})
-    //       .catch(function (e) {});
-    //   });
-    //   setBusy(false);
-    //   history.push({
-    //     pathname: "/GroupChatScreen",
-    //     state: { userData },
-    //   });
-    // } else {
-    //   alert("Group Name can not be empty");
-    // }
+    setBusy(true);
+    var newarr: any = [...groupUserList, ...addeduserList];
+    console.log("add listed participant", addeduserList, groupUserList, newarr);
+
+    //code to update existing users group userlist
+    groupUserList.forEach((element: any) => {
+      var chatlistpath = realtimedb.ref(
+        "chatlist/" + element.uid + "/" + opponentUID
+      );
+      chatlistpath.update({
+        userList: JSON.stringify(newarr),
+      });
+      console.log("user list to add", chatlistpath);
+    });
+    console.log("Successfully updated existing users");
+
+    //code to add group for new users
+    addeduserList.forEach((element: any) => {
+      console.log("users added", element.uid);
+      var chatlistpathopponent = realtimedb.ref(
+        "chatlist/" + element.uid + "/" + opponentUID
+      );
+      chatlistpathopponent
+        .set({
+          locationId: groupData.locationId,
+          profilePic: groupData.profilePic,
+          groupName: groupData.groupName,
+          recentMessage: groupData.recentMessage,
+          timeStamp: groupData.timeStamp,
+          uid: opponentUID,
+          isGroup: true,
+          userList: JSON.stringify(newarr),
+        })
+        .then(() => {})
+        .catch(function (e) {});
+    });
+    console.log("Successfully added new users");
+    setBusy(false);
+    history.replace({
+      pathname: "/Messages",
+    });
   }
 
   return (

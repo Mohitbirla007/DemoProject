@@ -59,9 +59,9 @@ const Tab5: React.FC = (props) => {
     var uid: any = data?.uid;
 
     var index = userList.findIndex((element: any) => element.uid === uid);
-    // setIsUserAdmin(
-    //   userList[index]?.isAdmin !== undefined ? userList[index].isAdmin : false
-    // );
+    setIsUserAdmin(
+      userList[index]?.isAdmin !== undefined ? userList[index].isAdmin : false
+    );
     setSelfData(data);
     console.log(
       "is user admin",
@@ -222,7 +222,7 @@ const Tab5: React.FC = (props) => {
               fill="clear"
               onClick={() => {
                 history.push({
-                  pathname: "/Participants",
+                  pathname: "/AddParticipants",
                   state: { groupData: groupData },
                 });
               }}
