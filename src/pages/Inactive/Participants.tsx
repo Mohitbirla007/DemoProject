@@ -15,6 +15,7 @@ import {
   IonNote,
   IonItemOptions,
   useIonViewDidEnter,
+  useIonViewWillEnter,
   IonItemOption,
   IonFooter,
   IonAlert,
@@ -35,11 +36,15 @@ const Tab5: React.FC = (props) => {
   const [showAlert2, setShowAlert2] = useState(false);
   const [showAlert3, setShowAlert3] = useState(false);
   const [showAlert4, setShowAlert4] = useState(false);
+  const [showAlert5, setShowAlert5] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
   const [selfData, setSelfData] = useState("");
+  const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
   const [propData, setPropData] = useState<any>(props);
   const [busy, setBusy] = useState<boolean>(false);
-
+  const [groupData, setGroupData] = useState(
+    propData?.location?.state?.groupData
+  );
   // var userData = propData?.location?.state?.userData;
   const [userList, setUserList] = useState<any>(
     JSON.parse(propData?.location?.state?.groupData?.userList)
@@ -49,9 +54,21 @@ const Tab5: React.FC = (props) => {
   );
   // console.log("user list", userList);
 
-  useIonViewDidEnter(async () => {
+  useIonViewWillEnter(async () => {
     var data: any = await auth.currentUser;
+    var uid: any = data?.uid;
+
+    var index = userList.findIndex((element: any) => element.uid === uid);
+    // setIsUserAdmin(
+    //   userList[index]?.isAdmin !== undefined ? userList[index].isAdmin : false
+    // );
     setSelfData(data);
+    console.log(
+      "is user admin",
+      index,
+      isUserAdmin,
+      userList[index]?.isAdmin !== undefined ? userList[index].isAdmin : false
+    );
   });
 
   function deleteConversation() {
@@ -169,6 +186,25 @@ const Tab5: React.FC = (props) => {
     });
   }
 
+  // const renderslider = () => {
+  //   if (isUserAdmin) {
+  //     return (
+  //       <IonItemOptions side="end">
+  //         <IonItemOption color="danger" onClick={() => setShowAlert3(true)}>
+  //           Remove Participant
+  //         </IonItemOption>
+  //         <IonItemOption
+  //           className="messagedelete"
+  //           color="warning"
+  //           onClick={() => setShowAlert4(true)}
+  //         >
+  //           Add as Admin
+  //         </IonItemOption>
+  //       </IonItemOptions>
+  //     );
+  //   }
+  // };
+
   return (
     <IonPage>
       <IonLoading message="Please wait..." duration={0} isOpen={busy} />
@@ -178,15 +214,22 @@ const Tab5: React.FC = (props) => {
           <IonButton slot="start" fill="clear">
             <IonBackButton />
           </IonButton>
-          <IonButton
-            className="participantsicon"
-            color="warning"
-            href="/addparticipants"
-            slot="end"
-            fill="clear"
-          >
-            <IonIcon icon={personAddOutline} />
-          </IonButton>
+          {isUserAdmin && (
+            <IonButton
+              className="participantsicon"
+              color="warning"
+              slot="end"
+              fill="clear"
+              onClick={() => {
+                history.push({
+                  pathname: "/Participants",
+                  state: { groupData: groupData },
+                });
+              }}
+            >
+              <IonIcon icon={personAddOutline} />
+            </IonButton>
+          )}
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -196,7 +239,7 @@ const Tab5: React.FC = (props) => {
               <IonCard
                 className="director"
                 onClick={() => {
-                  console.log("user data", object);
+                  console.log("user data", object, isUserAdmin);
                   setSelectedUser(object);
                 }}
               >
@@ -220,18 +263,27 @@ const Tab5: React.FC = (props) => {
                       {object.isAdmin ? "Admin" : null}
                     </IonNote>
                   </IonItem>
+                  {/* {!object.isAdmin && renderslider()} */}
                   {!object.isAdmin && (
                     <IonItemOptions side="end">
                       <IonItemOption
                         color="danger"
-                        onClick={() => setShowAlert3(true)}
+                        onClick={() =>
+                          isUserAdmin
+                            ? setShowAlert3(true)
+                            : setShowAlert5(true)
+                        }
                       >
                         Remove Participant
                       </IonItemOption>
                       <IonItemOption
                         className="messagedelete"
                         color="warning"
-                        onClick={() => setShowAlert4(true)}
+                        onClick={() =>
+                          isUserAdmin
+                            ? setShowAlert4(true)
+                            : setShowAlert5(true)
+                        }
                       >
                         Add as Admin
                       </IonItemOption>
@@ -254,7 +306,9 @@ const Tab5: React.FC = (props) => {
           </IonButton>
           <div></div>
           <IonButton
-            onClick={() => setShowAlert2(true)}
+            onClick={() =>
+              isUserAdmin ? setShowAlert2(true) : setShowAlert5(true)
+            }
             slot="end"
             fill="clear"
           >
@@ -347,6 +401,23 @@ const Tab5: React.FC = (props) => {
                 text: "Yes",
                 handler: () => {
                   addAdmin();
+                },
+              },
+            ]}
+          />
+
+          <IonAlert
+            isOpen={showAlert5}
+            onDidDismiss={() => setShowAlert5(false)}
+            cssClass="my-custom-class"
+            message={
+              "You do not have ADMIN permision to perform this operation"
+            }
+            buttons={[
+              {
+                text: "close",
+                handler: () => {
+                  console.log("close");
                 },
               },
             ]}
