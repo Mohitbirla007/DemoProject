@@ -75,6 +75,7 @@ const AddParticipants: React.FC = (props) => {
           email: data.email,
           profilepic: data.profilePic,
           uid: data.uid,
+          isFilled: false,
         };
         var index = groupUserList.findIndex(
           (element: any) => element.uid === data.uid
@@ -108,11 +109,20 @@ const AddParticipants: React.FC = (props) => {
   }
 
   function selectedUsers(data1: any, data2: any) {
-    let temp: any = addeduserList;
-    let newarr: any = { isAdmin: false, ...data2 };
-    temp.push(newarr);
-    setAddedUserList(temp);
-    console.log("radio data", data1, data2, temp, addeduserList);
+    if (data1) {
+      let temp: any = addeduserList;
+      let newarr: any = { isAdmin: false, ...data2 };
+      temp.push(newarr);
+      setAddedUserList(temp);
+    } else {
+      let temp: any = addeduserList;
+      let index = temp.findIndex(
+        (element: any) => element.email === data1.email
+      );
+      temp.splice(index, 1);
+      setAddedUserList(temp);
+    }
+    console.log("selected user data", data2, addeduserList);
   }
 
   function createGroup() {
@@ -206,9 +216,11 @@ const AddParticipants: React.FC = (props) => {
                         <h2>{object.email}</h2>
                       </IonLabel>
                       <IonRadioGroup
-                        value={selected}
+                        allowEmptySelection
+                        value={object.isFilled}
                         onIonChange={(e) => {
-                          selectedUsers(e.detail.value, object);
+                          object.isFilled = !object.isFilled;
+                          selectedUsers(object.isFilled, object);
                         }}
                       >
                         <IonRadio slot="end" />
@@ -236,10 +248,12 @@ const AddParticipants: React.FC = (props) => {
                         <h2>{object.email}</h2>
                       </IonLabel>
                       <IonRadioGroup
-                        value={selected}
-                        onIonChange={(e) =>
-                          selectedUsers(e.detail.value, object)
-                        }
+                        allowEmptySelection
+                        value={object.isFilled}
+                        onIonChange={(e) => {
+                          object.isFilled = !object.isFilled;
+                          selectedUsers(object.isFilled, object);
+                        }}
                       >
                         <IonRadio slot="end" />
                       </IonRadioGroup>

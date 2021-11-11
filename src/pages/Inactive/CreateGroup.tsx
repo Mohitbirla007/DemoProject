@@ -65,6 +65,7 @@ const CreateGroup: React.FC = () => {
           email: data.email,
           profilepic: data.profilePic,
           uid: data.uid,
+          isFilled: false,
         };
         if (uid !== data.uid) {
           items.push(jsonObject);
@@ -110,11 +111,20 @@ const CreateGroup: React.FC = () => {
   }
 
   function selectedUsers(data1: any, data2: any) {
-    let temp: any = addeduserList;
-    let newarr: any = { isAdmin: false, ...data2 };
-    temp.push(newarr);
-    setAddedUserList(temp);
-    console.log("radio data", data1, data2, temp, addeduserList);
+    if (data1) {
+      let temp: any = addeduserList;
+      let newarr: any = { isAdmin: false, ...data2 };
+      temp.push(newarr);
+      setAddedUserList(temp);
+    } else {
+      let temp: any = addeduserList;
+      let index = temp.findIndex(
+        (element: any) => element.email === data1.email
+      );
+      temp.splice(index, 1);
+      setAddedUserList(temp);
+    }
+    console.log("selected user data", data2, addeduserList);
   }
 
   function createGroup() {
@@ -134,20 +144,6 @@ const CreateGroup: React.FC = () => {
         isGroup: true,
         userList: JSON.stringify(addeduserList),
       };
-      // var chatlistpathself = realtimedb.ref("chatlist/" + uid + "/" + groupId);
-      // chatlistpathself
-      //   .set({
-      //     locationId: locId,
-      //     profilePic: groupPic !== "" && groupPic !== null ? groupPic : "",
-      //     groupName: groupName,
-      //     recentMessage: "",
-      //     timeStamp: currDate,
-      //     uid: groupId,
-      //     isGroup: true,
-      //     userList: JSON.stringify(addeduserList),
-      //   })
-      //   .then(() => {})
-      //   .catch(function (e) {});
       addeduserList.forEach((element: any) => {
         console.log("users added", element.uid);
         var chatlistpathopponent = realtimedb.ref(
@@ -167,20 +163,6 @@ const CreateGroup: React.FC = () => {
           .then(() => {})
           .catch(function (e) {});
       });
-      // var locId = makeid(28);
-      // var groupChatpath = realtimedb.ref("groupChat/" + groupId);
-      // groupChatpath
-      //   .set({
-      //     locationId: locId,
-      //     profilePic: "",
-      //     GroupName: "test dummy",
-      //     recentMessage: "",
-      //     TimeStamp: "",
-      //     uid: groupId,
-      //     // userList: addeduserList,
-      //   })
-      //   .then(() => {})
-      //   .catch(function (e) {});
       setBusy(false);
       history.push({
         pathname: "/GroupChatScreen",
@@ -277,23 +259,7 @@ const CreateGroup: React.FC = () => {
         ></IonSearchbar>
 
         <h6 className="suggested">Suggested</h6>
-
-        {/* <IonCard className="director">
-          <IonItem>
-            <IonAvatar slot="start">
-              <img src="./avatar-finn.png" />
-            </IonAvatar>
-            <IonLabel>
-              <h2>Mathew Thomas</h2>
-              <p>BBC Production Director</p>
-            </IonLabel>
-
-            <IonRadio slot="end" />
-          </IonItem>
-        </IonCard> */}
-        {/*-- List of Sliding Items --*/}
         <IonList>
-          {/* <h6 className="suggested">Users List</h6> */}
           {filterData !== null
             ? filterData.map((object: any, i: any) => {
                 return (
@@ -314,9 +280,11 @@ const CreateGroup: React.FC = () => {
                         <h2>{object.email}</h2>
                       </IonLabel>
                       <IonRadioGroup
-                        value={selected}
+                        allowEmptySelection
+                        value={object.isFilled}
                         onIonChange={(e) => {
-                          selectedUsers(e.detail.value, object);
+                          object.isFilled = !object.isFilled;
+                          selectedUsers(object.isFilled, object);
                         }}
                       >
                         <IonRadio slot="end" />
@@ -344,10 +312,12 @@ const CreateGroup: React.FC = () => {
                         <h2>{object.email}</h2>
                       </IonLabel>
                       <IonRadioGroup
-                        value={selected}
-                        onIonChange={(e) =>
-                          selectedUsers(e.detail.value, object)
-                        }
+                        allowEmptySelection
+                        value={object.isFilled}
+                        onIonChange={(e) => {
+                          object.isFilled = !object.isFilled;
+                          selectedUsers(object.isFilled, object);
+                        }}
                       >
                         <IonRadio slot="end" />
                       </IonRadioGroup>
