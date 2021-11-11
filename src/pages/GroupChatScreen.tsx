@@ -122,6 +122,7 @@ const GroupChatScreen: React.FC = (props) => {
           timeStamp: data.timeStamp,
           profilePic: data.profilePic,
           isRead: data.isRead,
+          email: data.email,
         };
         items.push(jsonObject);
         keys.push(key);
@@ -193,6 +194,7 @@ const GroupChatScreen: React.FC = (props) => {
           msgType: data,
           text: data === "text" ? message : msg,
           uid: uid,
+          email: email,
           timeStamp: currDate,
           isRead: false,
         })
@@ -208,7 +210,10 @@ const GroupChatScreen: React.FC = (props) => {
         );
         chatlistpath
           .update({
-            recentMessage: data === "text" ? message : "image uploaded",
+            recentMessage:
+              data === "text"
+                ? email + ":" + message
+                : email + ": image uploaded",
             timeStamp: currDate,
             lastSeen: false,
           })
@@ -367,16 +372,18 @@ const GroupChatScreen: React.FC = (props) => {
               )}
               <IonCard className={"card-style"}>
                 <IonItem>
-                  {object.msgType === "text" ? (
-                    <IonLabel>
-                      <p>{object.text}</p>
-                    </IonLabel>
-                  ) : (
-                    <IonThumbnail slot="start">
-                      <img src={object.text} />
-                    </IonThumbnail>
-                  )}
-
+                  <IonCol>
+                    {object.uid !== uid && <IonLabel>{object.email}</IonLabel>}
+                    {object.msgType === "text" ? (
+                      <IonLabel>
+                        <p>{object.text}</p>
+                      </IonLabel>
+                    ) : (
+                      <IonThumbnail slot="start">
+                        <img src={object.text} />
+                      </IonThumbnail>
+                    )}
+                  </IonCol>
                   <IonNote slot="end">
                     {moment(object.timeStamp).format("DD/MM/YYYY h:mm a")}
                   </IonNote>
