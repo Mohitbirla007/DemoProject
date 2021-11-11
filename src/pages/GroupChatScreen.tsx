@@ -212,7 +212,7 @@ const GroupChatScreen: React.FC = (props) => {
           .update({
             recentMessage:
               data === "text"
-                ? email + ":" + message
+                ? email + ": " + message
                 : email + ": image uploaded",
             timeStamp: currDate,
             lastSeen: false,
