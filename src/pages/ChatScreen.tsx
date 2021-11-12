@@ -34,6 +34,7 @@ import {
   pencil,
   send,
   ellipsisVertical,
+  arrowBack,
 } from "ionicons/icons";
 import { auth, realtimedb, storageRef } from "../firebaseConfig";
 import "./ChatScreen.css";
@@ -382,8 +383,20 @@ const ChatScreen: React.FC = (props) => {
       <IonLoading message="Please wait..." duration={0} isOpen={busy} />
       <IonHeader>
         <IonToolbar>
-          <IonButton slot="start" fill="clear">
-            <IonBackButton />
+          {/* <IonButton slot="start" fill="clear">
+            <IonBackButton defaultHref="Messages" />
+          </IonButton> */}
+          <IonButton
+            slot="start"
+            fill="clear"
+            onClick={() => {
+              history.replace({
+                pathname: "/Messages",
+              });
+            }}
+          >
+            {/* <IonBackButton defaultHref="Messages" /> */}
+            <IonIcon icon={arrowBack} color="black" />
           </IonButton>
           <IonAvatar className="cimage" slot="start">
             <img

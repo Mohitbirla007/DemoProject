@@ -23,7 +23,7 @@ import {
   IonList,
   IonLoading,
 } from "@ionic/react";
-import { chevronBack, personAddOutline } from "ionicons/icons";
+import { arrowBack, chevronBack, personAddOutline } from "ionicons/icons";
 import "./Participants.css";
 import { auth, realtimedb, storageRef } from "../../firebaseConfig";
 import { useHistory } from "react-router";
@@ -211,8 +211,20 @@ const Tab5: React.FC = (props) => {
       <IonHeader>
         <IonToolbar>
           <IonTitle className="title">Participants List</IonTitle>
-          <IonButton slot="start" fill="clear">
-            <IonBackButton />
+          {/* <IonButton slot="start" fill="clear">
+            <IonBackButton defaultHref="GroupChatScreen" />
+          </IonButton> */}
+          <IonButton
+            slot="start"
+            fill="clear"
+            onClick={() => {
+              history.replace({
+                pathname: "/GroupChatScreen",
+              });
+            }}
+          >
+            {/* <IonBackButton defaultHref="Messages" /> */}
+            <IonIcon icon={arrowBack} color="black" />
           </IonButton>
           {isUserAdmin && (
             <IonButton

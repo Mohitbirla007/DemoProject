@@ -26,7 +26,7 @@ import "./AddParticipants.css";
 import db, { auth, realtimedb, storageRef } from "../../firebaseConfig";
 import { useHistory } from "react-router";
 import moment from "moment";
-import { cameraOutline, pencil } from "ionicons/icons";
+import { arrowBack, cameraOutline, pencil } from "ionicons/icons";
 import {
   Camera,
   CameraResultType,
@@ -175,8 +175,20 @@ const AddParticipants: React.FC = (props) => {
       <IonHeader>
         <IonToolbar>
           <IonTitle className="title">List of Participants</IonTitle>
-          <IonButton slot="start" fill="clear">
-            <IonBackButton />
+          {/* <IonButton slot="start" fill="clear">
+            <IonBackButton defaultHref="Participants" />
+          </IonButton> */}
+          <IonButton
+            slot="start"
+            fill="clear"
+            onClick={() => {
+              history.replace({
+                pathname: "/Participants",
+              });
+            }}
+          >
+            {/* <IonBackButton defaultHref="Messages" /> */}
+            <IonIcon icon={arrowBack} color="black" />
           </IonButton>
           <IonButton
             slot="end"

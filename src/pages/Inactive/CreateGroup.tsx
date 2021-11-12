@@ -26,7 +26,7 @@ import "./CreateGroup.css";
 import db, { auth, realtimedb, storageRef } from "../../firebaseConfig";
 import { useHistory } from "react-router";
 import moment from "moment";
-import { cameraOutline, pencil } from "ionicons/icons";
+import { arrowBack, cameraOutline, pencil } from "ionicons/icons";
 import {
   Camera,
   CameraResultType,
@@ -205,10 +205,21 @@ const CreateGroup: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle className="title">Add Participants</IonTitle>
-          <IonButton slot="start" fill="clear">
-            <IonBackButton />
+          {/* <IonButton slot="start" fill="clear">
+            <IonBackButton defaultHref="Messages" />
+          </IonButton> */}
+          <IonButton
+            slot="start"
+            fill="clear"
+            onClick={() => {
+              history.replace({
+                pathname: "/Messages",
+              });
+            }}
+          >
+            {/* <IonBackButton defaultHref="Messages" /> */}
+            <IonIcon icon={arrowBack} color="black" />
           </IonButton>
-
           <IonButton
             slot="end"
             color="warning"
