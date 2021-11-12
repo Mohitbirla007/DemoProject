@@ -164,6 +164,8 @@ const CreateGroup: React.FC = () => {
           .catch(function (e) {});
       });
       setBusy(false);
+      setGroupName("");
+      setGroupPic("");
       history.push({
         pathname: "/GroupChatScreen",
         state: { userData },
