@@ -488,7 +488,11 @@ const ChatScreen: React.FC = (props) => {
             <IonCol
               size="1"
               className="chat-send-button"
-              onClick={() => handlePrompt("text", "null")}
+              onClick={() => {
+                message !== ""
+                  ? handlePrompt("text", "null")
+                  : alert("can not send blank message");
+              }}
             >
               <IonIcon icon={send} />
             </IonCol>
