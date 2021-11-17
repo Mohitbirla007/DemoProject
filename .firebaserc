@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "indi-da614"
-  }
+    "default": "indi-da614",
+    "production": "indi-d4f1b"
+  },
+  "targets": {}
 }
